@@ -1,0 +1,94 @@
+.privasi-container {
+  min-height: 100vh;
+  width: 99vw;
+  background: linear-gradient(135deg, #89C4F4 0%, #4AA3F0 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: system-ui, -apple-system, sans-serif;
+  padding-bottom: 50px;
+}
+
+.privasi-nav {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding: 30px 0;
+  margin-bottom: 10px;
+}
+
+.nav-link-white {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: opacity 0.2s;
+}
+
+.nav-link-white:hover {
+  opacity: 0.8;
+}
+
+.nav-btn-active-glass {
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 8px 30px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  color: white;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.privasi-card {
+  background-color: white;
+  width: 85%;
+  max-width: 1250px;
+  border-radius: 20px;
+  padding: 50px 60px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.privasi-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 40px;
+}
+
+.policy-list {
+  padding-left: 20px;
+  color: #000;
+}
+
+.policy-item {
+  margin-bottom: 25px;
+}
+
+.policy-header {
+  font-weight: 600;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.policy-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .privasi-card {
+    width: 90%;
+    padding: 30px;
+  }
+  .privasi-nav {
+    gap: 20px;
+  }
+}
