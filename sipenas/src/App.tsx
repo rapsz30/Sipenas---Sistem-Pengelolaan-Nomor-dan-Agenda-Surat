@@ -4,9 +4,10 @@ import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPass/ForgotPass";
 import ForgotUsername from "./pages/ForgotUsername/ForgotUsn";
 import Privacy from "./pages/Privacy/Privacy";
+import Help from "./pages/Help/Help";
 
 // Import CSS Global
-import "./App.css"; 
+import "./App.css";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/forgot-username" element={<ForgotUsername />} />
         </Route>
-
+        <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
     </BrowserRouter>

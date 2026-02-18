@@ -9,17 +9,18 @@ const Navbar = () => {
     location.pathname === "/forgot-username";
 
   const isPrivacy = location.pathname === "/privacy";
+  const isHelp = location.pathname === "/help";
 
   return (
     <nav className="shared-nav">
-      <Link to="#" className="nav-item">
+      <Link
+        to="/help"
+        className={isHelp ? "nav-item-active" : "nav-item"}
+      >
         Bantuan
       </Link>
 
-      <Link
-        to="/"
-        className={isLoginGroup ? "nav-item-active" : "nav-item"}
-      >
+      <Link to="/" className={isLoginGroup ? "nav-item-active" : "nav-item"}>
         Login
       </Link>
 

@@ -1,0 +1,115 @@
+.help-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #89c4f4 0%, #4aa3f0 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  padding-bottom: 50px;
+}
+
+/* Wrapper navbar biar konsisten spacing */
+.help-navbar-wrapper {
+  padding: 30px 0;
+  margin-bottom: 10px;
+}
+
+.search-section {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 85%;
+  max-width: 1200px;
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.icon-main {
+  font-size: 40px;
+  color: #4aa3f0;
+}
+
+.help-title {
+  margin: 10px 0;
+}
+
+.search-box {
+  display: flex;
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.search-btn {
+  background-color: #4aa3f0;
+  color: white;
+  border: none;
+  padding: 0 30px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-hint {
+  font-size: 14px;
+  color: #666;
+}
+
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 85%;
+  max-width: 1200px;
+  margin-top: 30px;
+}
+
+.help-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.help-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-placeholder {
+  width: 60px;
+  height: 60px;
+  background-color: #e3f2fd;
+  border-radius: 12px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2196f3;
+}
+
+.card-desc {
+  color: #666;
+  font-size: 14px;
+}
+
+.card-link {
+  color: #2196f3;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
