@@ -1,0 +1,46 @@
+.custom-input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.custom-input-label {
+  font-size: 16px;
+  font-weight: 570;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.custom-input-wrapper {
+  position: relative;
+}
+
+.custom-input-field {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.custom-input-field:focus {
+  border-color: #2196f3;
+}
+
+.custom-input-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}

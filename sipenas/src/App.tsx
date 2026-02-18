@@ -1,21 +1,25 @@
-// src/App.tsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './pages/Login/Login';
-import ForgotPass from './pages/ForgotPass/ForgotPass';
-import ForgotUsn from './pages/ForgotUsername/ForgotUsn';
-import Privacy from './pages/Privacy/Privacy'; 
+
+import AuthLayout from "./layouts/AuthLayout";
+import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPass";
+import ForgotUsername from "./pages/ForgotUsn";
+import Privacy from "./pages/Privacy";
+import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-         <Route path="/" element={<Login />} />
-         <Route path="/forgot-password" element={<ForgotPass />} />
-         <Route path="/forgot-username" element={<ForgotUsn />} />
-         <Route path="/privacy" element={<Privacy />} />
+        <Route element={<AuthLayout />}>
+          <Route path="/" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/forgot-username" element={<ForgotUsername />} />
+        </Route>
+        <Route path="/privacy" element={<Privacy />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;
