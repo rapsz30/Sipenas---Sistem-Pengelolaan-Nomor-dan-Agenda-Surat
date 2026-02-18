@@ -30,6 +30,14 @@
   z-index: 10;
 }
 
+.top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+
 .top-nav {
   display: flex;
   gap: 40px;

@@ -1,23 +1,25 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import InputField from "../components/InputField";
-import Button from "../components/Button";
+import InputField from "../../components/InputField";
+import Button from "../../components/Button";
 
 const Login = () => {
   return (
     <>
       <h2 className="page-title">LOGIN AKUN</h2>
+
       <form onSubmit={(e) => e.preventDefault()}>
         <InputField label="Nama Pengguna" placeholder="Nama Pengguna" />
 
-        <div style={{ textAlign: "left", marginBottom: "20px" }}>
+        <div
+          style={{
+            textAlign: "left",
+            marginBottom: "15px",
+          }}
+        >
           <Link
             to="/forgot-username"
-            style={{
-              fontSize: "14px",
-              color: "#3b82f6",
-              textDecoration: "none",
-              fontWeight: 525,
-            }}
+            style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500"}}
           >
             Lupa Nama Pengguna?
           </Link>
@@ -29,19 +31,21 @@ const Login = () => {
           placeholder="Kata Sandi"
         />
 
-        <div style={{ textAlign: "left", marginBottom: "20px" }}>
+        <div
+          style={{
+            textAlign: "left",
+            marginBottom: "20px",
+          }}
+        >
           <Link
             to="/forgot-password"
-            style={{
-              fontSize: "14px",
-              color: "#3b82f6",
-              textDecoration: "none",
-              fontWeight: 525,
-            }}
+            style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500"}}
           >
             Lupa Kata Sandi?
           </Link>
         </div>
+
+        <div className="captcha-section" style={{ marginBottom: "20px" }}></div>
 
         <Button type="submit" variant="primary">
           Masuk

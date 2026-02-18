@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import AuthLayout from "./layouts/AuthLayout";
-import Login from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPass";
-import ForgotUsername from "./pages/ForgotUsn";
-import Privacy from "./pages/Privacy";
-import "./App.css";
+import Login from "./pages/Login/Login";
+import ForgotPassword from "./pages/ForgotPass/ForgotPass";
+import ForgotUsername from "./pages/ForgotUsername/ForgotUsn";
+import Privacy from "./pages/Privacy/Privacy";
+
+// Import CSS Global
+import "./App.css"; 
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/forgot-username" element={<ForgotUsername />} />
         </Route>
+
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
     </BrowserRouter>
