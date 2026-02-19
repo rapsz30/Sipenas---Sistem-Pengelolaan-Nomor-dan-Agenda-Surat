@@ -1,14 +1,21 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import InputField from "../../components/InputField";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const handleLogin = (e:React.FormEvent) => {
+    e.preventDefault();
+    navigate('/operator');
+  };
+
+
   return (
     <>
       <h2 className="page-title">LOGIN AKUN</h2>
 
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={handleLogin}>
         <InputField label="Nama Pengguna" placeholder="Nama Pengguna" />
 
         <div

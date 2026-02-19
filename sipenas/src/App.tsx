@@ -5,8 +5,8 @@ import ForgotPassword from "./pages/ForgotPass/ForgotPass";
 import ForgotUsername from "./pages/ForgotUsername/ForgotUsn";
 import Privacy from "./pages/Privacy/Privacy";
 import Help from "./pages/Help/Help";
+import DashboardOperator from "./pages/Operator/DashboardOperator";
 
-// Import CSS Global
 import "./App.css";
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
         </Route>
         <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/operator" element={<DashboardOperator />} />
       </Routes>
     </BrowserRouter>
   );
