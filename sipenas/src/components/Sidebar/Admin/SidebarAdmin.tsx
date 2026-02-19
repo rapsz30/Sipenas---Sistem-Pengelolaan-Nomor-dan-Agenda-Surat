@@ -1,23 +1,25 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import "./Sidebar.css";
+import "../Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartPie,
-  faFileCirclePlus,
+  faEnvelopeOpenText,
+  faGear,
   faRightFromBracket,
   faUser,
   faBars,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Sidebar = () => {
+const SidebarAdmin = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
   const menuItems = [
-    { name: "Dashboard", path: "/operator", icon: faChartPie },
-    { name: "Ajukan Surat", path: "/ajukan-surat", icon: faFileCirclePlus },
+    { name: "Dashboard", path: "/admin", icon: faChartPie },
+    { name: "Kelola Surat", path: "/kelola-surat", icon: faEnvelopeOpenText },
+    { name: "Pengaturan", path: "/pengaturan", icon: faGear },
   ];
 
   return (
@@ -63,8 +65,8 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className="user-info">
-              <strong>Nama User</strong>
-              <span>Jabatan</span>
+              <strong>Admin</strong>
+              <span>Administrator</span>
             </div>
           </div>
         </div>
@@ -73,4 +75,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarAdmin;

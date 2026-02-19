@@ -6,6 +6,7 @@ import ForgotUsername from "./pages/ForgotUsername/ForgotUsn";
 import Privacy from "./pages/Privacy/Privacy";
 import Help from "./pages/Help/Help";
 import DashboardOperator from "./pages/Operator/DashboardOperator";
+import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 
 import "./App.css";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/operator" element={<DashboardOperator />} />
+        <Route path="/admin" element={<DashboardAdmin />} />
       </Routes>
     </BrowserRouter>
   );
