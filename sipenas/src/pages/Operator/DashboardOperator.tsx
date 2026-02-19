@@ -51,12 +51,11 @@ const DashboardOperator = () => {
         <h1 className="dashboard-title">
           Sistem Pengelolaan Nomor dan Agenda Surat
         </h1>
+
+        <h2>Dashboard</h2>
         <div className="dashboard-subtitle">
           Selamat datang di Sistem Pengelolaan Nomor dan Agenda Surat
         </div>
-
-        <h2>Dashboard</h2>
-
         <div className="stats-row">
           {stats.map((s, i) => (
             <div key={i} className="stat-card">

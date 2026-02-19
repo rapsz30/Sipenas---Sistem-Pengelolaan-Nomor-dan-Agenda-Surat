@@ -7,6 +7,7 @@ import Privacy from "./pages/Privacy/Privacy";
 import Help from "./pages/Help/Help";
 import DashboardOperator from "./pages/Operator/DashboardOperator";
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
+import AjukanSuratOperator from "./pages/Operator/AjukanSuratOperator";
 
 import "./App.css";
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/operator" element={<DashboardOperator />} />
         <Route path="/admin" element={<DashboardAdmin />} />
+        <Route path="/ajukan-surat" element={<AjukanSuratOperator />} />
       </Routes>
     </BrowserRouter>
   );
