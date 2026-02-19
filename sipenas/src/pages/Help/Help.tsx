@@ -1,5 +1,5 @@
 // src/pages/Help/Help.tsx
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import "./Help.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

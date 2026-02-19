@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import InputField from "../../components/InputField";
-import Button from "../../components/Button";
+import InputField from "../../components/InputField/InputField";
+import Button from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
