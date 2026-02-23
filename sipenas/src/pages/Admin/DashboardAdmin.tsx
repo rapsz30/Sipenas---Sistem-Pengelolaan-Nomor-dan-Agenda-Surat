@@ -3,8 +3,8 @@ import "./DashboardAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
-  faEnvelopeOpen,
-  faFileExport,
+  faClock,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardAdmin = () => {
@@ -18,28 +18,48 @@ const DashboardAdmin = () => {
       icon: faChartLine,
     },
     {
-      title: "Surat Masuk",
+      title: "Menunggu Tindakan",
       value: 128,
       change: "8% dari minggu lalu",
       changeColor: "green",
-      iconColor: "#16A34A",
-      icon: faEnvelopeOpen,
+      iconColor: "#D97706",
+      icon: faClock,
     },
     {
-      title: "Surat Keluar",
+      title: "Surat Terverifikasi",
       value: 123,
       change: "3% dari minggu lalu",
       changeColor: "red",
-      iconColor: "#D97706",
-      icon: faFileExport,
+      iconColor: "#16A34A",
+      icon: faCircleCheck,
     },
   ];
 
   const aktivitas = [
-    { tanggal: "1-2-2026", bidang: "Surat Keluar Dinas", jenis: "Surat Keluar Dinas", status: "Diproses" },
-    { tanggal: "2-2-2026", bidang: "Surat Keputusan Kadis", jenis: "Surat Keputusan Kadis", status: "Selesai" },
-    { tanggal: "3-2-2026", bidang: "Surat Cuti", jenis: "Surat Cuti", status: "Diproses" },
-    { tanggal: "4-2-2026", bidang: "Surat Tidak Absen", jenis: "Surat Tidak Absen", status: "Selesai" },
+    {
+      tanggal: "1-2-2026",
+      bidang: "Surat Keluar Dinas",
+      jenis: "Surat Keluar Dinas",
+      status: "Diproses",
+    },
+    {
+      tanggal: "2-2-2026",
+      bidang: "Surat Keputusan Kadis",
+      jenis: "Surat Keputusan Kadis",
+      status: "Selesai",
+    },
+    {
+      tanggal: "3-2-2026",
+      bidang: "Surat Cuti",
+      jenis: "Surat Cuti",
+      status: "Diproses",
+    },
+    {
+      tanggal: "4-2-2026",
+      bidang: "Surat Tidak Absen",
+      jenis: "Surat Tidak Absen",
+      status: "Selesai",
+    },
   ];
 
   const kategori = [
@@ -55,12 +75,11 @@ const DashboardAdmin = () => {
         <h1 className="dashboard-title">
           Sistem Pengelolaan Nomor dan Agenda Surat
         </h1>
+
+        <h2>Dashboard Admin</h2>
         <div className="dashboard-subtitle">
           Selamat datang di Sistem Pengelolaan Nomor dan Agenda Surat
         </div>
-
-        <h2>Dashboard Admin</h2>
-
         {/* Stats */}
         <div className="stats-row">
           {stats.map((s, i) => (
@@ -68,9 +87,7 @@ const DashboardAdmin = () => {
               <div>
                 <div className="stat-title">{s.title}</div>
                 <div className="stat-number">{s.value}</div>
-                <div className={`stat-change ${s.changeColor}`}>
-                  {s.change}
-                </div>
+                <div className={`stat-change ${s.changeColor}`}>{s.change}</div>
               </div>
 
               <FontAwesomeIcon

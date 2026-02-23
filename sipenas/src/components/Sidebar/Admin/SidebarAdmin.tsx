@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartPie,
   faEnvelopeOpenText,
-  faGear,
+  faCalendarDays,
   faRightFromBracket,
   faUser,
   faBars,
-  faXmark,
+  faXmark, 
 } from "@fortawesome/free-solid-svg-icons";
 
 const SidebarAdmin = () => {
@@ -19,7 +19,7 @@ const SidebarAdmin = () => {
   const menuItems = [
     { name: "Dashboard", path: "/admin", icon: faChartPie },
     { name: "Kelola Surat", path: "/kelola-surat", icon: faEnvelopeOpenText },
-    { name: "Pengaturan", path: "/pengaturan", icon: faGear },
+    { name: "Atur Periode", path: "/atur-periode", icon: faCalendarDays },
   ];
 
   return (

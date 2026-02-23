@@ -8,6 +8,8 @@ import Help from "./pages/Help/Help";
 import DashboardOperator from "./pages/Operator/DashboardOperator";
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import AjukanSuratOperator from "./pages/Operator/AjukanSuratOperator";
+import ForgotPassword1 from "./pages/ForgotPass/ForgotPass1";
+import AturPeriode from "./pages/Admin/AturPeriode";
 
 import "./App.css";
 
@@ -19,12 +21,14 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/forgot-username" element={<ForgotUsername />} />
+          <Route path="/forgot-password1" element={<ForgotPassword1 />} />
         </Route>
         <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/operator" element={<DashboardOperator />} />
         <Route path="/admin" element={<DashboardAdmin />} />
         <Route path="/ajukan-surat" element={<AjukanSuratOperator />} />
+        <Route path="/atur-periode" element={<AturPeriode />} />
       </Routes>
     </BrowserRouter>
   );

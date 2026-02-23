@@ -4,33 +4,39 @@ import Button from "../../components/Button/Button";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const handleSentOTP = (e: React.FormEvent) => {
+  const handleChangePW = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/forgot-password1");
+    navigate("/");
   };
 
   return (
     <>
       <h2 className="page-title">Mereset Kata Sandi</h2>
-      <form onSubmit={handleSentOTP}>
+      <form onSubmit={handleChangePW}>
         <div className="form-group">
           <p style={{ marginBottom: "20px", color: "#666", lineHeight: "1.5" }}>
-            Untuk mendapatkan mereset kata sandi, masukan email yang telah
-            terdaftar.{" "}
-            <b>
-              Sistem akan mengrimkan kode OTP ke email terkait untuk mereset
-              kata sandi
-            </b>
+            Untuk mereset Kata Sandi, masukan kode OTP yang telah kami kirim ke
+            mail dan masukan kata sandi yang baru
           </p>
           <InputField
             className="form-input"
-            type="email"
-            placeholder="masukkan email anda..."
+            placeholder="masukkan kode OTP..."
+          />
+          <InputField
+            className="form-input"
+            type="password"
+            isPassword={true}
+            placeholder="masukkan kata sandi baru..."
+          />
+          <InputField
+            className="form-input"
+            type="password"
+            placeholder="Konfirmasi ulang kata sandi baru..."
           />
         </div>
 
         <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-          <Link to="/" style={{ width: "100%" }}>
+          <Link to="/forgot-password" style={{ width: "100%" }}>
             <button type="button" className="btn-secondary">
               Kembali
             </button>

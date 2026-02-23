@@ -3,6 +3,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import "./AjukanSuratOperator.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import InputField from "../../components/InputField/InputField";
 
 const AjukanSurat = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -61,6 +62,26 @@ const AjukanSurat = () => {
                 <input type="date" className="input" />
               </div>
             </div>
+
+            <div className="form-group">
+              <InputField
+                className="input"
+                placeholder="Masukan Perihal Surat"
+                label="Masukan Perihal Surat*"
+              />
+            </div>
+
+            <div className="form-group">
+              <InputField
+                className="input"
+                placeholder="Masukan Tujuan Surat"
+                label="Tujuan Surat*"
+              />
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <InputField className="input" label="Keterangan" />
           </div>
 
           {/* Upload File */}
