@@ -32,7 +32,7 @@ const AjukanSurat = () => {
                 color: "#3b82f6",
                 textDecoration: "none",
                 fontWeight: "500",
-                marginLeft: "72%",
+                marginLeft: "67%",
               }}
             >
               Lihat Daftar Periode Tersimpan

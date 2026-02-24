@@ -10,6 +10,7 @@ import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import AjukanSuratOperator from "./pages/Operator/AjukanSuratOperator";
 import ForgotPassword1 from "./pages/ForgotPass/ForgotPass1";
 import AturPeriode from "./pages/Admin/AturPeriode";
+import KelolaSurat from "./pages/Admin/KelolaSurat";
 
 import "./App.css";
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/admin" element={<DashboardAdmin />} />
         <Route path="/ajukan-surat" element={<AjukanSuratOperator />} />
         <Route path="/atur-periode" element={<AturPeriode />} />
+        <Route path="/kelola-surat" element={<KelolaSurat />} />
       </Routes>
     </BrowserRouter>
   );
