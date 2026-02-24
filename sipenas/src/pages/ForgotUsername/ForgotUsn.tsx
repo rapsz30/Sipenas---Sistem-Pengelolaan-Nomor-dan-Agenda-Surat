@@ -1,12 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 
 const ForgotUsername = () => {
+  const navigate = useNavigate();
+  const handleForgotUsername = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate("/");
+  };
+
   return (
     <>
       <h2 className="page-title">LUPA NAMA PENGGUNA</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={handleForgotUsername}>
         <p style={{ marginBottom: "20px", color: "#666", lineHeight: "1.5" }}>
           Masukkan alamat email yang terdaftar pada akun Anda. Kami akan
           mengirimkan nama pengguna Anda ke email tersebut.

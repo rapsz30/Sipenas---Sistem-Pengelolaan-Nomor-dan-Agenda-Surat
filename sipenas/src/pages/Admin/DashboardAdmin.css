@@ -9,7 +9,6 @@
   padding: 0px 40px;
 }
 
-/* TITLE (samakan dengan operator) */
 .dashboard-title {
   font-size: 30px;
   font-weight: 700;
@@ -23,7 +22,6 @@
   font-size: 15px;
 }
 
-/* STATS (identik operator) */
 .stats-row {
   display: flex;
   gap: 20px;
@@ -72,7 +70,6 @@
   font-size: 28px;
 }
 
-/* LARGE CARD (samakan operator) */
 .large-card {
   background: #ffffff;
   border-radius: 16px;
@@ -97,7 +94,6 @@
   font-size: 14px;
 }
 
-/* TABLE (konsisten operator) */
 .history-table {
   width: 100%;
   border-collapse: collapse;
@@ -127,7 +123,6 @@
   border-bottom: none;
 }
 
-/* BADGE STATUS */
 .badge {
   padding: 4px 10px;
   border-radius: 8px;
@@ -145,7 +140,6 @@
   color: #92400e;
 }
 
-/* RESPONSIVE (copy operator biar konsisten) */
 @media (max-width: 1024px) {
   .stats-row {
     display: grid;

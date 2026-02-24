@@ -80,7 +80,6 @@ const DashboardAdmin = () => {
         <div className="dashboard-subtitle">
           Selamat datang di Sistem Pengelolaan Nomor dan Agenda Surat
         </div>
-        {/* Stats */}
         <div className="stats-row">
           {stats.map((s, i) => (
             <div key={i} className="stat-card">
@@ -98,8 +97,6 @@ const DashboardAdmin = () => {
             </div>
           ))}
         </div>
-
-        {/* Aktivitas */}
         <div className="large-card">
           <div className="table-header">
             <h3>Aktivitas Terkini</h3>
@@ -137,8 +134,6 @@ const DashboardAdmin = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Laporan */}
         <div className="large-card">
           <div className="table-header">
             <h3>Laporan Berdasarkan Kategori</h3>

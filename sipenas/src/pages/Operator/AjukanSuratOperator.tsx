@@ -23,7 +23,6 @@ const AjukanSurat = () => {
       <Sidebar />
 
       <main className="operator-content">
-        {/* Top Header */}
         <div className="page-top">
           <h1 className="page-title">
             Sistem Pengelolaan Nomor dan Agenda Surat
@@ -44,7 +43,6 @@ const AjukanSurat = () => {
           </div>
 
           <div className="form-grid">
-            {/* Jenis Surat */}
             <div className="form-group">
               <label>Jenis Surat*</label>
               <select className="input">
@@ -54,8 +52,6 @@ const AjukanSurat = () => {
                 <option>Surat Keputusan</option>
               </select>
             </div>
-
-            {/* Tanggal Surat */}
             <div className="form-group">
               <label>Tanggal Surat*</label>
               <div className="date-input">
@@ -114,8 +110,6 @@ const AjukanSurat = () => {
               </div>
             )}
           </div>
-
-          {/* Footer Area */}
           <div className="form-footer">
             <div className="checkbox-group">
               <input type="checkbox" id="confirm" />

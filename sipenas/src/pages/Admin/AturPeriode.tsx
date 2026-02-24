@@ -9,7 +9,6 @@ const AjukanSurat = () => {
       <Sidebar />
 
       <main className="operator-content">
-        {/* Top Header */}
         <div className="page-top">
           <h1 className="page-title">
             Sistem Pengelolaan Nomor dan Agenda Surat
@@ -26,7 +25,7 @@ const AjukanSurat = () => {
             <h3>Formulir Periode Baru</h3>
             <span>Isi informasi periode pencatatan surat</span>
             <Link
-              to="/atur-periode"
+              to="/daftar-periode"
               style={{
                 fontSize: "14px",
                 color: "#3b82f6",

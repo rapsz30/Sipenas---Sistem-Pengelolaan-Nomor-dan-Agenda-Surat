@@ -11,6 +11,11 @@ import AjukanSuratOperator from "./pages/Operator/AjukanSuratOperator";
 import ForgotPassword1 from "./pages/ForgotPass/ForgotPass1";
 import AturPeriode from "./pages/Admin/AturPeriode";
 import KelolaSurat from "./pages/Admin/KelolaSurat";
+import FAQ from "./pages/Help/FAQ/FAQ";
+import Guide from "./pages/Help/Guide/Guide";
+import Contact from "./pages/Help/Contact/Contact";
+import Updates from "./pages/Help/Updates/Updates";
+import DaftarPeriode from "./pages/Admin/DaftarPeriode";
 
 import "./App.css";
 
@@ -31,6 +36,11 @@ function App() {
         <Route path="/ajukan-surat" element={<AjukanSuratOperator />} />
         <Route path="/atur-periode" element={<AturPeriode />} />
         <Route path="/kelola-surat" element={<KelolaSurat />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/guide" element={<Guide />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/updates" element={<Updates />} />
+        <Route path="/daftar-periode" element={<DaftarPeriode />} />
       </Routes>
     </BrowserRouter>
   );
