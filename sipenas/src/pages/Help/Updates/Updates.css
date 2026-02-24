@@ -1,0 +1,61 @@
+.updates-container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+.updates-content {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.timeline {
+  position: relative;
+  border-left: 2px solid #e5e7eb;
+  padding-left: 24px;
+  margin-left: 12px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+.timeline-dot {
+  position: absolute;
+  left: -31px;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  border: 4px solid #eff6ff;
+  border-radius: 50%;
+}
+.version-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #166534;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.update-date {
+  color: #6b7280;
+  font-size: 13px;
+  margin-left: 12px;
+}
+.update-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 12px;
+}
+.update-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.update-card li {
+  margin-bottom: 6px;
+}

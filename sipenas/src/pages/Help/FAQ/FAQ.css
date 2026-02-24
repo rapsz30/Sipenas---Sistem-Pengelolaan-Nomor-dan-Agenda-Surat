@@ -1,0 +1,121 @@
+.faq-container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.faq-navbar-wrapper {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.faq-content {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.btn-back:hover {
+  color: #2563eb;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq-header h1 {
+  font-size: 32px;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.faq-header p {
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-item {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item.active {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.faq-question:hover {
+  background-color: #f8fafc;
+}
+
+.faq-icon {
+  color: #9ca3af;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+  color: #3b82f6;
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  background-color: white;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 500px; 
+  padding: 0 24px 24px 24px;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 15px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 16px;
+}

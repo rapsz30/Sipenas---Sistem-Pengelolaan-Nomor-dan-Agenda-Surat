@@ -1,12 +1,42 @@
-// src/pages/Help/Help.tsx
 import Navbar from "../../components/Navbar/Navbar";
 import "./Help.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faFileLines } from "@fortawesome/free-solid-svg-icons";
+import { 
+  faSearch, 
+  faBook, 
+  faCircleQuestion, 
+  faBullhorn, 
+  faHeadset 
+} from "@fortawesome/free-solid-svg-icons";
 
 const Help = () => {
-  const helpCategories = [1, 2, 3, 4];
+const helpCategories = [
+    {
+      title: "Panduan Pengguna",
+      desc: "Pelajari cara menggunakan sistem SIPENAS dari awal hingga mahir.",
+      icon: faBook,
+      link: "/guide" 
+    },
+    {
+      title: "FAQ",
+      desc: "Temukan jawaban untuk pertanyaan yang paling sering diajukan pengguna.",
+      icon: faCircleQuestion,
+      link: "/faq" 
+    },
+    {
+      title: "Pembaruan Sistem",
+      desc: "Informasi mengenai fitur terbaru dan perbaikan pada sistem SIPENAS.",
+      icon: faBullhorn,
+      link: "/updates"
+    },
+    {
+      title: "Hubungi Kami",
+      desc: "Mengalami kendala teknis? Tim dukungan kami siap membantu Anda.",
+      icon: faHeadset,
+      link: "/contact"
+    }
+  ];
 
   return (
     <div className="help-container">
@@ -35,18 +65,18 @@ const Help = () => {
       </section>
 
       <section className="help-grid">
-        {helpCategories.map((_, index) => (
+        {helpCategories.map((category, index) => (
           <div key={index} className="help-card">
             <div className="icon-placeholder">
-              <FontAwesomeIcon icon={faFileLines} size="lg" />
+              <FontAwesomeIcon icon={category.icon} size="2x" />
             </div>
 
-            <h3>Lorem Ipsum</h3>
+            <h3>{category.title}</h3>
             <p className="card-desc">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              {category.desc}
             </p>
 
-            <a href="#" className="card-link">
+            <a href={category.link} className="card-link">
               Lihat Semua →
             </a>
           </div>

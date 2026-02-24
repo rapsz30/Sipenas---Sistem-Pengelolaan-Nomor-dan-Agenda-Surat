@@ -1,0 +1,51 @@
+.guide-container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+.guide-content {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.guide-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.guide-card h3 {
+  color: #111827;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+.guide-card p {
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+.guide-step {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.step-number {
+  background: #eff6ff;
+  color: #2563eb;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.step-text {
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.5;
+  padding-top: 4px;
+}
