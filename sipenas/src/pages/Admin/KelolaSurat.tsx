@@ -1,5 +1,3 @@
-// src/pages/Admin/KelolaSurat.tsx
-
 import React, { useState } from "react";
 import SidebarAdmin from "../../components/Sidebar/Admin/SidebarAdmin";
 import "./KelolaSurat.css";
@@ -13,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const KelolaSurat = () => {
+  // Dummy data untuk tabel surat
   const [suratList] = useState([
     {
       id: 1,
@@ -48,6 +47,22 @@ const KelolaSurat = () => {
     },
   ]);
 
+  // STATE UNTUK MODAL APPROVE
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [selectedSurat, setSelectedSurat] = useState<any>(null);
+
+  // FUNGSI UNTUK MEMBUKA MODAL
+  const handleApproveClick = (surat: any) => {
+    setSelectedSurat(surat);
+    setShowApproveModal(true);
+  };
+
+  // FUNGSI UNTUK MENUTUP MODAL
+  const closeApproveModal = () => {
+    setShowApproveModal(false);
+    setSelectedSurat(null);
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "Selesai":
@@ -82,10 +97,7 @@ const KelolaSurat = () => {
           <div className="table-controls">
             <div className="search-bar">
               <FontAwesomeIcon icon={faSearch} />
-              <input
-                type="text"
-                placeholder="Cari berdasarkan perihal atau jenis surat..."
-              />
+              <input type="text" placeholder="Cari berdasarkan perihal atau jenis surat..." />
             </div>
             <button className="filter-btn">
               <FontAwesomeIcon icon={faFilter} />
@@ -118,22 +130,20 @@ const KelolaSurat = () => {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button
-                        className="btn-action btn-approve"
+                      <button className="btn-action btn-view" title="Lihat Detail">
+                        <FontAwesomeIcon icon={faEye} />
+                      </button>
+                      
+                      {/* BUTTON APPROVE MEMANGGIL handleApproveClick */}
+                      <button 
+                        className="btn-action btn-approve" 
                         title="Setujui Surat"
+                        onClick={() => handleApproveClick(surat)}
                       >
                         <FontAwesomeIcon icon={faCheckCircle} />
                       </button>
-                      <button
-                        className="btn-action btn-view"
-                        title="Lihat Detail"
-                      >
-                        <FontAwesomeIcon icon={faEye} />
-                      </button>
-                      <button
-                        className="btn-action btn-reject"
-                        title="Tolak Surat"
-                      >
+
+                      <button className="btn-action btn-reject" title="Tolak Surat">
                         <FontAwesomeIcon icon={faTimesCircle} />
                       </button>
                     </div>
@@ -144,6 +154,71 @@ const KelolaSurat = () => {
           </table>
         </div>
       </main>
+
+      {/* MODAL APPROVE SURAT */}
+      {showApproveModal && selectedSurat && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Verifikasi & Berikan Nomor Surat</h3>
+            </div>
+            
+            <div className="modal-section">
+              <h4>Informasi Surat</h4>
+              <div className="info-grid">
+                <div className="info-label">Asal Bidang:</div>
+                <div className="info-value">{selectedSurat.asal}</div>
+                
+                <div className="info-label">Jenis Surat:</div>
+                <div className="info-value">{selectedSurat.jenis}</div>
+                
+                <div className="info-label">Perihal:</div>
+                <div className="info-value">{selectedSurat.perihal}</div>
+                
+                <div className="info-label">Tgl. Pengajuan:</div>
+                <div className="info-value">{selectedSurat.tanggal}</div>
+              </div>
+            </div>
+
+            <div className="modal-section">
+              <h4>Informasi Sistem</h4>
+              <div className="info-grid">
+                <div className="info-label">Kode Klasifikasi:</div>
+                <div className="info-value">005 (Dummy)</div>
+                
+                <div className="info-label">Urutan Terakhir:</div>
+                <div className="info-value">023 (Dummy)</div>
+              </div>
+            </div>
+
+            <div className="modal-section">
+              <h4>Nomor Surat Resmi</h4>
+              {/* Dummy Value untuk nomor surat otomatis */}
+              <input 
+                type="text" 
+                className="input-nomor" 
+                defaultValue="005/024/UMUM/2026" 
+                placeholder="Masukkan Nomor Surat..." 
+              />
+            </div>
+
+            <div className="modal-actions">
+              <button className="btn-cancel-modal" onClick={closeApproveModal}>
+                Batal
+              </button>
+              <button 
+                className="btn-submit-modal" 
+                onClick={() => {
+                  alert("Surat berhasil disetujui!");
+                  closeApproveModal();
+                }}
+              >
+                Setujui & Terbitkan Nomor
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
