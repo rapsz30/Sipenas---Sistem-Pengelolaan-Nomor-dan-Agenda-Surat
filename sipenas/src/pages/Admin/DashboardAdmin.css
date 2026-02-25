@@ -28,6 +28,16 @@
   margin-bottom: 28px;
 }
 
+.table-header {
+  display: block !important;
+  text-align: left !important;
+}
+
+.table-header span {
+  display: block !important; 
+  margin-top: 4px;
+}
+
 .stat-card {
   flex: 1;
   background: #ffffff;

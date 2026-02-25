@@ -134,18 +134,18 @@ const KelolaSurat = () => {
                   <td>
                     <div className="action-buttons">
                       <button
-                        className="btn-action btn-view"
-                        title="Lihat Detail"
-                      >
-                        <FontAwesomeIcon icon={faEye} />
-                      </button>
-
-                      <button
                         className="btn-action btn-approve"
                         title="Setujui Surat"
                         onClick={() => handleApproveClick(surat)}
                       >
                         <FontAwesomeIcon icon={faCheckCircle} />
+                      </button>
+                      
+                      <button
+                        className="btn-action btn-view"
+                        title="Lihat Detail"
+                      >
+                        <FontAwesomeIcon icon={faEye} />
                       </button>
                       <button
                         className="btn-action btn-reject"

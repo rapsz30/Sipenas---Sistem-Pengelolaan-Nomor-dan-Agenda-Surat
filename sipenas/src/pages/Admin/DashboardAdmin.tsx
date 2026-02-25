@@ -62,9 +62,12 @@ const DashboardAdmin = () => {
     },
   ];
 
+  // Dummy Data Kategori yang Diperbarui
   const kategori = [
-    { nama: "Surat Keluar Dinas", masuk: 10, keluar: 5, total: 15 },
-    { nama: "Surat Keputusan Kadis", masuk: 20, keluar: 10, total: 30 },
+    { nama: "Surat Keluar Dinas", menunggu: 5, disetujui: 9, ditolak: 1 },
+    { nama: "Surat Keputusan Kadis", menunggu: 12, disetujui: 18, ditolak: 0 },
+    { nama: "Surat Cuti", menunggu: 3, disetujui: 15, ditolak: 2 },
+    { nama: "Surat Edaran", menunggu: 1, disetujui: 5, ditolak: 0 },
   ];
 
   return (
@@ -97,6 +100,7 @@ const DashboardAdmin = () => {
             </div>
           ))}
         </div>
+
         <div className="large-card">
           <div className="table-header">
             <h3>Aktivitas Terkini</h3>
@@ -134,30 +138,57 @@ const DashboardAdmin = () => {
             </tbody>
           </table>
         </div>
+
         <div className="large-card">
-          <div className="table-header">
+          <div
+            className="table-header"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              textAlign: "left",
+              gap: "4px",
+              marginBottom: "20px",
+            }}
+          >
             <h3>Laporan Berdasarkan Kategori</h3>
-            <span>Rincian surat per kategori</span>
+            <span>Rincian status pengajuan berdasarkan jenis surat</span>
           </div>
 
           <table className="history-table">
             <thead>
               <tr>
-                <th>Kategori</th>
-                <th>Surat Masuk</th>
-                <th>Surat Keluar</th>
-                <th>Total</th>
+                <th>Kategori Surat</th>
+                <th>Menunggu Verifikasi</th>
+                <th>Disetujui</th>
+                <th>Ditolak</th>
+                <th>Total Keseluruhan</th>
               </tr>
             </thead>
             <tbody>
-              {kategori.map((k, i) => (
-                <tr key={i}>
-                  <td>{k.nama}</td>
-                  <td>{k.masuk}</td>
-                  <td>{k.keluar}</td>
-                  <td>{k.total}</td>
-                </tr>
-              ))}
+              {kategori.map((k, i) => {
+                const total = k.menunggu + k.disetujui + k.ditolak;
+
+                return (
+                  <tr key={i}>
+                    <td style={{ fontWeight: "500", color: "#374151" }}>
+                      {k.nama}
+                    </td>
+                    <td style={{ color: "#d97706", fontWeight: "600" }}>
+                      {k.menunggu}
+                    </td>
+                    <td style={{ color: "#166534", fontWeight: "600" }}>
+                      {k.disetujui}
+                    </td>
+                    <td style={{ color: "#b91c1c", fontWeight: "600" }}>
+                      {k.ditolak}
+                    </td>
+                    <td style={{ fontWeight: "700", color: "#111827" }}>
+                      {total}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
