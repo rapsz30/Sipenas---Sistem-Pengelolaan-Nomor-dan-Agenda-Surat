@@ -5,11 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const handleLogin = (e:React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/operator');
+    navigate("/operator");
   };
-
 
   return (
     <>
@@ -26,7 +25,12 @@ const Login = () => {
         >
           <Link
             to="/forgot-username"
-            style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500"}}
+            style={{
+              fontSize: "14px",
+              color: "#3b82f6",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
           >
             Lupa Nama Pengguna?
           </Link>
@@ -46,13 +50,26 @@ const Login = () => {
         >
           <Link
             to="/forgot-password"
-            style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500"}}
+            style={{
+              fontSize: "14px",
+              color: "#3b82f6",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
           >
             Lupa Kata Sandi?
           </Link>
         </div>
 
-        <div className="captcha-section" style={{ marginBottom: "20px" }}></div>
+        <div className="otp-section" style={{ marginBottom: "20px" }}>
+
+          {/* Disini scan qr google authenticator dulu baru kodenya muncul lewat app authenticator */}
+
+          <InputField
+            label="Kode OTP"
+            placeholder="Masukan Kode OTP"
+          />
+        </div>
 
         <Button type="submit" variant="primary">
           Masuk
