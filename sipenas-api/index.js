@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const { authenticator } = require('otplib');
 const qrcode = require('qrcode');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 dotenv.config();
 const app = express();
@@ -161,6 +162,171 @@ app.post('/api/users', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Terjadi kesalahan saat memproses password." });
     }
+});
+
+// ==========================================
+// KONFIGURASI PENGIRIM EMAIL (NODEMAILER)
+// ==========================================
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+// ==========================================
+// 4. ROUTE LUPA NAMA PENGGUNA (USERNAME)
+// ==========================================
+app.post('/api/forgot-username', (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: "Alamat email wajib diisi!" });
+    }
+
+    // Cari user berdasarkan email
+    const query = "SELECT username, nama_lengkap FROM users WHERE email = ?";
+    db.execute(query, [email], (err, results) => {
+        if (err) return res.status(500).json({ message: "Terjadi kesalahan server." });
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Email tidak terdaftar di sistem kami." });
+        }
+
+        const user = results[0];
+
+        // Siapkan kerangka isi email
+        const mailOptions = {
+            from: `"Admin SIPENAS" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: 'Pemulihan Nama Pengguna (Username) SIPENAS',
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                    <h2 style="color: #2b6cb0;">Halo, ${user.nama_lengkap}!</h2>
+                    <p>Anda telah meminta informasi nama pengguna (username) untuk akun SIPENAS Anda.</p>
+                    <p>Berikut adalah detail login Anda:</p>
+                    <div style="background-color: #f1f5f9; padding: 10px 20px; font-size: 20px; font-weight: bold; border-left: 4px solid #3b82f6; display: inline-block;">
+                        ${user.username}
+                    </div>
+                    <p style="margin-top: 20px;">Silakan kembali ke halaman login dan gunakan username tersebut untuk masuk.</p>
+                    <br/>
+                    <p>Terima kasih,</p>
+                    <p><strong>Tim Administrator SIPENAS</strong></p>
+                </div>
+            `
+        };
+
+        // Kirim Email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error("Gagal kirim email:", error);
+                return res.status(500).json({ message: "Gagal mengirim email. Pastikan konfigurasi email server benar." });
+            }
+            res.json({ message: "Nama pengguna telah berhasil dikirim ke email Anda! Silakan cek kotak masuk." });
+        });
+    });
+});
+
+// ==========================================
+// 5. ROUTE MINTA OTP LUPA PASSWORD (KIRIM KE EMAIL)
+// ==========================================
+app.post('/api/forgot-password-request', (req, res) => {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ message: "Alamat email wajib diisi!" });
+
+    // Cek apakah email ada di database
+    const queryCheck = "SELECT id_users, nama_lengkap FROM users WHERE email = ?";
+    db.execute(queryCheck, [email], (err, results) => {
+        if (err) return res.status(500).json({ message: "Terjadi kesalahan server." });
+        if (results.length === 0) return res.status(404).json({ message: "Email tidak terdaftar." });
+
+        const user = results[0];
+
+        // Generate 6 digit OTP acak
+        const otpEmail = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        // Buat waktu kadaluarsa (15 menit dari sekarang)
+        const expiryDate = new Date();
+        expiryDate.setMinutes(expiryDate.getMinutes() + 15);
+
+        // Simpan OTP dan Expiry ke database
+        const queryUpdate = "UPDATE users SET otp_email = ?, otp_expiry = ? WHERE email = ?";
+        db.execute(queryUpdate, [otpEmail, expiryDate, email], (errUpdate) => {
+            if (errUpdate) return res.status(500).json({ message: "Gagal memproses permintaan." });
+
+            // Kirim email
+            const mailOptions = {
+                from: `"Admin SIPENAS" <${process.env.EMAIL_USER}>`,
+                to: email,
+                subject: 'Kode OTP Reset Kata Sandi SIPENAS',
+                html: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                        <h2 style="color: #2b6cb0;">Halo, ${user.nama_lengkap}!</h2>
+                        <p>Kami menerima permintaan untuk mereset kata sandi akun Anda.</p>
+                        <p>Berikut adalah kode rahasia OTP Anda (berlaku selama 15 menit):</p>
+                        <div style="background-color: #f1f5f9; padding: 10px 20px; font-size: 24px; font-weight: bold; letter-spacing: 5px; border-left: 4px solid #3b82f6; display: inline-block;">
+                            ${otpEmail}
+                        </div>
+                        <p style="margin-top: 20px; color: red; font-size: 12px;">Jangan berikan kode ini kepada siapapun.</p>
+                    </div>
+                `
+            };
+
+            transporter.sendMail(mailOptions, (error) => {
+                if (error) return res.status(500).json({ message: "Gagal mengirim email OTP." });
+                res.json({ message: "Kode OTP telah dikirim ke email Anda!" });
+            });
+        });
+    });
+});
+
+// ==========================================
+// 6. ROUTE VERIFIKASI OTP & RESET PASSWORD
+// ==========================================
+app.post('/api/forgot-password-reset', async (req, res) => {
+    const { email, otp, newPassword } = req.body;
+
+    if (!email || !otp || !newPassword) {
+        return res.status(400).json({ message: "Semua data wajib diisi!" });
+    }
+
+    if (newPassword.length < 6) {
+        return res.status(400).json({ message: "Kata sandi baru minimal 6 karakter!" });
+    }
+
+    // Cek kecocokan email, OTP, dan waktu kadaluarsa
+    const query = "SELECT * FROM users WHERE email = ? AND otp_email = ?";
+    db.execute(query, [email, otp], async (err, results) => {
+        if (err) return res.status(500).json({ message: "Terjadi kesalahan server." });
+        
+        if (results.length === 0) {
+            return res.status(400).json({ message: "Kode OTP salah!" });
+        }
+
+        const user = results[0];
+        const now = new Date();
+
+        // Cek apakah OTP sudah kadaluarsa
+        if (new Date(user.otp_expiry) < now) {
+            return res.status(400).json({ message: "Kode OTP sudah kadaluarsa. Silakan minta ulang." });
+        }
+
+        try {
+            // Hash password baru
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            // Update password dan kosongkan kembali OTP di database
+            const queryUpdate = "UPDATE users SET password = ?, otp_email = NULL, otp_expiry = NULL WHERE email = ?";
+            db.execute(queryUpdate, [hashedPassword, email], (errUpdate) => {
+                if (errUpdate) return res.status(500).json({ message: "Gagal mereset kata sandi." });
+                res.json({ message: "Kata sandi berhasil direset! Silakan login dengan sandi baru." });
+            });
+        } catch (error) {
+            res.status(500).json({ message: "Terjadi kesalahan saat memproses sandi." });
+        }
+    });
 });
 
 const PORT = process.env.PORT || 5000;
