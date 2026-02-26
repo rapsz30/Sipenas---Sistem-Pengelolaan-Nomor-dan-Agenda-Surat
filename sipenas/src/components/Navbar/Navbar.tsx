@@ -6,6 +6,7 @@ const Navbar = () => {
   const isLoginGroup =
     location.pathname === "/" ||
     location.pathname === "/forgot-password" ||
+    location.pathname === "/force-change-password" ||
     location.pathname === "/forgot-username";
 
   const isPrivacy = location.pathname === "/privacy";

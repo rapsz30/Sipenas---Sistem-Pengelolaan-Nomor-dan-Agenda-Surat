@@ -16,6 +16,7 @@ import Guide from "./pages/Help/Guide/Guide";
 import Contact from "./pages/Help/Contact/Contact";
 import Updates from "./pages/Help/Updates/Updates";
 import DaftarPeriode from "./pages/Admin/DaftarPeriode";
+import ForceChangePassword from "./pages/ForceChangePassword/ForceChangePassword";
 
 import "./App.css";
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/updates" element={<Updates />} />
         <Route path="/daftar-periode" element={<DaftarPeriode />} />
+        <Route path="/force-change-password" element={<ForceChangePassword />} />
       </Routes>
     </BrowserRouter>
   );
