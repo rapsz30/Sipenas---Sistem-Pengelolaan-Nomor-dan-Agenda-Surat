@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 
 const ForgotUsn = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -16,11 +17,14 @@ const ForgotUsn = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/forgot-username", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/forgot-username",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        },
+      );
 
       const data = await response.json();
 
@@ -41,18 +45,46 @@ const ForgotUsn = () => {
   return (
     <>
       <h2 className="page-title">LUPA NAMA PENGGUNA</h2>
-      <p style={{ textAlign: "center", marginBottom: "20px", fontSize: "14px", color: "#555" }}>
-        Masukkan alamat email yang terdaftar. Kami akan mengirimkan nama pengguna Anda ke email tersebut.
+      <p
+        style={{
+          textAlign: "left",
+          marginBottom: "20px",
+          fontSize: "14px",
+          color: "#555",
+        }}
+      >
+        Masukkan alamat email yang terdaftar. Kami akan mengirimkan nama
+        pengguna Anda ke email tersebut.
       </p>
 
       {/* Tampilkan pesan Error atau Sukses */}
       {errorMsg && (
-        <div style={{ color: "red", marginBottom: "15px", textAlign: "center", fontSize: "14px", padding: "10px", backgroundColor: "#fee2e2", borderRadius: "5px" }}>
+        <div
+          style={{
+            color: "red",
+            marginBottom: "15px",
+            textAlign: "left",
+            fontSize: "14px",
+            padding: "10px",
+            backgroundColor: "#fee2e2",
+            borderRadius: "5px",
+          }}
+        >
           {errorMsg}
         </div>
       )}
       {message && (
-        <div style={{ color: "green", marginBottom: "15px", textAlign: "center", fontSize: "14px", padding: "10px", backgroundColor: "#d1fae5", borderRadius: "5px" }}>
+        <div
+          style={{
+            color: "green",
+            marginBottom: "15px",
+            textAlign: "left",
+            fontSize: "14px",
+            padding: "10px",
+            backgroundColor: "#d1fae5",
+            borderRadius: "5px",
+          }}
+        >
           {message}
         </div>
       )}
@@ -67,19 +99,18 @@ const ForgotUsn = () => {
           required
         />
 
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ display: "flex", gap: "12px", marginTop: "20px" }}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => navigate("/")}
+          >
+            Kembali
+          </Button>
+
           <Button type="submit" variant="primary" disabled={isLoading}>
             {isLoading ? "Mengirim Email..." : "Kirim Username"}
           </Button>
-        </div>
-
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <Link
-            to="/"
-            style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500" }}
-          >
-            Kembali ke Halaman Login
-          </Link>
         </div>
       </form>
     </>

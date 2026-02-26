@@ -6,7 +6,7 @@ import Button from "../../components/Button/Button";
 const ForgotPass1 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const emailToReset = location.state?.email;
 
   const [otp, setOtp] = useState("");
@@ -39,15 +39,18 @@ const ForgotPass1 = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/forgot-password-reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          email: emailToReset, 
-          otp, 
-          newPassword 
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/forgot-password-reset",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: emailToReset,
+            otp,
+            newPassword,
+          }),
+        },
+      );
 
       const data = await response.json();
 
@@ -68,12 +71,30 @@ const ForgotPass1 = () => {
   return (
     <>
       <h2 className="page-title">BUAT SANDI BARU</h2>
-      <p style={{ textAlign: "center", marginBottom: "20px", fontSize: "14px", color: "#555" }}>
-        Kode OTP telah dikirim ke <strong>{emailToReset}</strong>. Silakan masukkan kode tersebut beserta kata sandi baru Anda.
+      <p
+        style={{
+          textAlign: "center",
+          marginBottom: "20px",
+          fontSize: "14px",
+          color: "#555",
+        }}
+      >
+        Kode OTP telah dikirim ke <strong>{emailToReset}</strong>. Silakan
+        masukkan kode tersebut beserta kata sandi baru Anda.
       </p>
 
       {errorMsg && (
-        <div style={{ color: "red", marginBottom: "15px", textAlign: "center", fontSize: "14px", padding: "10px", backgroundColor: "#fee2e2", borderRadius: "5px" }}>
+        <div
+          style={{
+            color: "red",
+            marginBottom: "15px",
+            textAlign: "center",
+            fontSize: "14px",
+            padding: "10px",
+            backgroundColor: "#fee2e2",
+            borderRadius: "5px",
+          }}
+        >
           {errorMsg}
         </div>
       )}
@@ -112,17 +133,18 @@ const ForgotPass1 = () => {
           />
         </div>
 
-        <Button type="submit" variant="primary" disabled={isLoading}>
-          {isLoading ? "Memproses..." : "Reset Kata Sandi"}
-        </Button>
-
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <Link
-            to="/"
-            style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500" }}
+        <div style={{ display: "flex", gap: "12px", marginTop: "20px" }}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => navigate("/")}
           >
             Batal dan Kembali Login
-          </Link>
+          </Button>
+          
+          <Button type="submit" variant="primary" disabled={isLoading}>
+            {isLoading ? "Memproses..." : "Reset Kata Sandi"}
+          </Button>
         </div>
       </form>
     </>
