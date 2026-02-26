@@ -71,7 +71,7 @@ const ForgotPass = () => {
 
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <Link
-            to="/login"
+            to="/"
             style={{ fontSize: "14px", color: "#3b82f6", textDecoration: "none", fontWeight: "500" }}
           >
             Kembali ke Halaman Login

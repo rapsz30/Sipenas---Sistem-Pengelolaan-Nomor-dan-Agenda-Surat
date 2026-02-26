@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,11 +14,18 @@ import {
 const Sidebar = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const menuItems = [
     { name: "Dashboard", path: "/operator", icon: faChartPie },
     { name: "Ajukan Surat", path: "/ajukan-surat", icon: faFileCirclePlus },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setOpen(false);
+    navigate("/"); 
+  };
 
   return (
     <>
@@ -46,15 +53,21 @@ const Sidebar = () => {
               {item.name}
             </Link>
           ))}
-
-          <Link
-            to="/"
-            onClick={() => setOpen(false)}
+          <button
+            onClick={handleLogout}
             className="sidebar-link logout-link"
+            style={{ 
+              background: "none", 
+              border: "none", 
+              width: "100%", 
+              textAlign: "left", 
+              cursor: "pointer",
+              fontFamily: "inherit" 
+            }}
           >
             <FontAwesomeIcon icon={faRightFromBracket} />
             Keluar
-          </Link>
+          </button>
         </nav>
 
         <div className="sidebar-footer">

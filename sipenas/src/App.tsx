@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute"; 
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPass/ForgotPass";
@@ -32,17 +33,22 @@ function App() {
         </Route>
         <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<Privacy />} />
-        <Route path="/operator" element={<DashboardOperator />} />
-        <Route path="/admin" element={<DashboardAdmin />} />
-        <Route path="/ajukan-surat" element={<AjukanSuratOperator />} />
-        <Route path="/atur-periode" element={<AturPeriode />} />
-        <Route path="/kelola-surat" element={<KelolaSurat />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/updates" element={<Updates />} />
-        <Route path="/daftar-periode" element={<DaftarPeriode />} />
         <Route path="/force-change-password" element={<ForceChangePassword />} />
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<DashboardAdmin />} />
+          <Route path="/atur-periode" element={<AturPeriode />} />
+          <Route path="/kelola-surat" element={<KelolaSurat />} />
+          <Route path="/daftar-periode" element={<DaftarPeriode />} />
+        </Route>
+        <Route element={<ProtectedRoute allowedRoles={["operator"]} />}>
+          <Route path="/operator" element={<DashboardOperator />} />
+          <Route path="/ajukan-surat" element={<AjukanSuratOperator />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

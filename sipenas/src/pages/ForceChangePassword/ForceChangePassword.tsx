@@ -53,7 +53,7 @@ const ForceChangePassword = () => {
       // Jika sukses, hapus tempUserId dan suruh login ulang
       alert(data.message);
       localStorage.removeItem("tempUserId");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       setErrorMsg("Tidak dapat terhubung ke server.");
     }

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,12 +15,19 @@ import {
 const SidebarAdmin = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate(); // 1. Tambahkan useNavigate
 
   const menuItems = [
     { name: "Dashboard", path: "/admin", icon: faChartPie },
     { name: "Kelola Surat", path: "/kelola-surat", icon: faEnvelopeOpenText },
     { name: "Atur Periode", path: "/atur-periode", icon: faCalendarDays },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setOpen(false);
+    navigate("/");
+  };
 
   return (
     <>
@@ -48,15 +55,21 @@ const SidebarAdmin = () => {
               {item.name}
             </Link>
           ))}
-
-          <Link
-            to="/"
-            onClick={() => setOpen(false)}
+          <button
+            onClick={handleLogout}
             className="sidebar-link logout-link"
+            style={{ 
+              background: "none", 
+              border: "none", 
+              width: "100%", 
+              textAlign: "left", 
+              cursor: "pointer",
+              fontFamily: "inherit" 
+            }}
           >
             <FontAwesomeIcon icon={faRightFromBracket} />
             Keluar
-          </Link>
+          </button>
         </nav>
 
         <div className="sidebar-footer">
