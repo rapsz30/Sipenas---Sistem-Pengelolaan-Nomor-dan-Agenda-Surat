@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2026 at 02:37 AM
+-- Generation Time: Feb 27, 2026 at 03:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,12 @@ CREATE TABLE `bidang` (
 --
 
 INSERT INTO `bidang` (`id_bidang`, `nama_bidang`, `kode_bidang`) VALUES
-(1, 'Administrasi', 'ADM');
+(1, 'Administrasi', 'ADM'),
+(2, 'Bidang Infrastruktur Teknologi Informasi dan Komunikasi', 'INF'),
+(3, 'Bidang Layanan E-Government', 'EGOV'),
+(4, 'Bidang Pengelolaan Informasi dan Komunikasi Publik', 'PIKP'),
+(5, 'Bidang Persandiandan Keamaanan Informasi', 'SKI'),
+(6, 'Bidang Statistik Sektoral', 'STAT');
 
 -- --------------------------------------------------------
 
@@ -48,7 +53,7 @@ INSERT INTO `bidang` (`id_bidang`, `nama_bidang`, `kode_bidang`) VALUES
 
 CREATE TABLE `jenis_surat` (
   `id_jenis_surat` int(11) NOT NULL,
-  `nama_jenis` varchar(100) NOT NULL
+  `nama_jenis` enum('Surat Keluar Dinas','Surat Keputusan Kadis','Surat Cuti','Surat Tidak Absen','Surat Tugas') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -163,7 +168,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bidang`
 --
 ALTER TABLE `bidang`
-  MODIFY `id_bidang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_bidang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jenis_surat`
