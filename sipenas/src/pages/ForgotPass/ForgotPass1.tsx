@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 
@@ -141,7 +141,7 @@ const ForgotPass1 = () => {
           >
             Batal dan Kembali Login
           </Button>
-          
+
           <Button type="submit" variant="primary" disabled={isLoading}>
             {isLoading ? "Memproses..." : "Reset Kata Sandi"}
           </Button>
