@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2026 at 07:15 AM
+-- Generation Time: Feb 28, 2026 at 06:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,19 +53,35 @@ INSERT INTO `bidang` (`id_bidang`, `nama_bidang`, `kode_bidang`) VALUES
 
 CREATE TABLE `jenis_surat` (
   `id_jenis_surat` int(11) NOT NULL,
-  `nama_jenis` enum('Surat Keluar Dinas','Surat Keputusan Kadis','Surat Cuti','Surat Tidak Absen','Surat Tugas') NOT NULL
+  `nama_jenis` enum('Surat Keluar Dinas','Surat Keputusan Kadis','Surat Cuti','Surat Tidak Absen','Surat Tugas') NOT NULL,
+  `kode_klasifikasi` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `jenis_surat`
 --
 
-INSERT INTO `jenis_surat` (`id_jenis_surat`, `nama_jenis`) VALUES
-(16, 'Surat Keluar Dinas'),
-(17, 'Surat Keputusan Kadis'),
-(18, 'Surat Cuti'),
-(19, 'Surat Tidak Absen'),
-(20, 'Surat Tugas');
+INSERT INTO `jenis_surat` (`id_jenis_surat`, `nama_jenis`, `kode_klasifikasi`) VALUES
+(16, 'Surat Keluar Dinas', 'SKD.01'),
+(17, 'Surat Keputusan Kadis', 'SKK.01'),
+(18, 'Surat Cuti', 'C.01'),
+(19, 'Surat Tidak Absen', 'TA.01'),
+(20, 'Surat Tugas', 'ST.01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nomor_surat`
+--
+
+CREATE TABLE `nomor_surat` (
+  `id_nomor` int(11) NOT NULL,
+  `id_jenis_surat` int(11) NOT NULL,
+  `nomor_surat` varchar(50) NOT NULL,
+  `tanggal` date NOT NULL,
+  `available` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  `tanggal_dipakai` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -94,9 +110,9 @@ CREATE TABLE `pengajuan_surat` (
 
 INSERT INTO `pengajuan_surat` (`id_pengajuan_surat`, `id_user`, `id_jenis_surat`, `id_periode`, `perihal_surat`, `file_lampiran`, `tanggal_pengajuan`, `status_pengajuan`, `nomor_surat_resmi`, `keterangan_surat`, `catatan_admin`, `tanggal_disetujui`) VALUES
 (1, 3, 16, 1, 'tes', '1772161726449.pdf', '2026-02-16 17:00:00', 'ditolak', NULL, 'tes', 'Tolak', NULL),
-(2, 3, 16, 1, 'tes1', '1772163292913.docx', '2026-02-02 17:00:00', 'disetujui', 'XYZ/100/200X', '', NULL, '2026-02-27 10:46:42'),
+(2, 3, 16, 1, 'tes1', '1772163292913.docx', '2026-02-02 17:00:00', 'disetujui', NULL, '', NULL, '2026-02-27 10:46:42'),
 (3, 3, 16, 2, 'Surat Keluar Dinas 1', '1772165050862.pdf', '2026-02-26 17:00:00', 'pending', NULL, '', NULL, NULL),
-(4, 3, 18, 2, 'Surat Cuti A.N Rafi', '1772167735491.pdf', '2026-02-26 17:00:00', 'disetujui', '10/25/26', '', NULL, '2026-02-27 11:51:43');
+(4, 3, 18, 2, 'Surat Cuti A.N Rafi', '1772167735491.pdf', '2026-02-26 17:00:00', 'disetujui', NULL, '', NULL, '2026-02-27 11:51:43');
 
 -- --------------------------------------------------------
 
@@ -166,13 +182,22 @@ ALTER TABLE `jenis_surat`
   ADD PRIMARY KEY (`id_jenis_surat`);
 
 --
+-- Indexes for table `nomor_surat`
+--
+ALTER TABLE `nomor_surat`
+  ADD PRIMARY KEY (`id_nomor`),
+  ADD UNIQUE KEY `nomor_surat` (`nomor_surat`),
+  ADD KEY `id_jenis_surat` (`id_jenis_surat`);
+
+--
 -- Indexes for table `pengajuan_surat`
 --
 ALTER TABLE `pengajuan_surat`
   ADD PRIMARY KEY (`id_pengajuan_surat`),
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_jenis_surat` (`id_jenis_surat`),
-  ADD KEY `id_periode` (`id_periode`);
+  ADD KEY `id_periode` (`id_periode`),
+  ADD KEY `fk_nomor_surat_resmi` (`nomor_surat_resmi`);
 
 --
 -- Indexes for table `periode`
@@ -206,6 +231,12 @@ ALTER TABLE `jenis_surat`
   MODIFY `id_jenis_surat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `nomor_surat`
+--
+ALTER TABLE `nomor_surat`
+  MODIFY `id_nomor` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pengajuan_surat`
 --
 ALTER TABLE `pengajuan_surat`
@@ -228,9 +259,16 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `nomor_surat`
+--
+ALTER TABLE `nomor_surat`
+  ADD CONSTRAINT `nomor_surat_ibfk_1` FOREIGN KEY (`id_jenis_surat`) REFERENCES `jenis_surat` (`id_jenis_surat`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `pengajuan_surat`
 --
 ALTER TABLE `pengajuan_surat`
+  ADD CONSTRAINT `fk_nomor_surat_resmi` FOREIGN KEY (`nomor_surat_resmi`) REFERENCES `nomor_surat` (`nomor_surat`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `pengajuan_surat_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_users`) ON DELETE CASCADE,
   ADD CONSTRAINT `pengajuan_surat_ibfk_2` FOREIGN KEY (`id_jenis_surat`) REFERENCES `jenis_surat` (`id_jenis_surat`),
   ADD CONSTRAINT `pengajuan_surat_ibfk_3` FOREIGN KEY (`id_periode`) REFERENCES `periode` (`id_periode`);
