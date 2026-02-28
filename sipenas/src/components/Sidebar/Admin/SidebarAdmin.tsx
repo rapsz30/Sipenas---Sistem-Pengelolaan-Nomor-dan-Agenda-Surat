@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartPie,
   faEnvelopeOpenText,
-  faGear,
+  faCalendar,
   faRightFromBracket,
   faUser,
   faBars,
@@ -28,7 +28,7 @@ const SidebarAdmin = () => {
   const menuItems = [
     { name: "Dashboard", path: "/admin", icon: faChartPie },
     { name: "Kelola Surat", path: "/kelola-surat", icon: faEnvelopeOpenText },
-    { name: "Pengaturan", path: "/atur-periode", icon: faGear },
+    { name: "Atur Periode", path: "/atur-periode", icon: faCalendar },
   ];
 
   const handleLogout = () => {

@@ -53,6 +53,7 @@ const KelolaSurat = () => {
            asal: item.asal || "Tanpa Bidang",
            jenis: item.jenis || "Tanpa Jenis",
            perihal: item.perihal || "-",
+           nomor_surat: item.nomor_surat_resmi || item.nomor_surat || "-", // Menyimpan nomor surat dari backend
            status: statusFront,
            file: item.file || "" // Mengambil nama file dari backend
          };
@@ -254,23 +255,26 @@ const KelolaSurat = () => {
                 <th>Asal Bidang</th>
                 <th>Jenis Surat</th>
                 <th>Perihal</th>
+                <th>Nomor Surat</th>
                 <th>Status</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
-                <tr><td colSpan={6} style={{ textAlign: "center", padding: "20px" }}>Memuat Data...</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: "center", padding: "20px" }}>Memuat Data...</td></tr>
               ) : filteredSuratList.length === 0 ? (
-                <tr><td colSpan={6} style={{ textAlign: "center", padding: "20px" }}>Tidak ada surat yang sesuai kriteria</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: "center", padding: "20px" }}>Tidak ada surat yang sesuai kriteria</td></tr>
               ) : (
-                // MENGGUNAKAN filteredSuratList bukan suratList
                 filteredSuratList.map((surat) => (
                   <tr key={surat.id}>
                     <td>{surat.tanggal}</td>
                     <td>{surat.asal}</td>
                     <td>{surat.jenis}</td>
                     <td>{surat.perihal}</td>
+                    <td style={{ fontWeight: surat.status === "Selesai" ? "600" : "normal", color: surat.status === "Selesai" ? "#10b981" : "inherit" }}>
+                      {surat.status === "Selesai" && surat.nomor_surat && surat.nomor_surat !== "-" ? surat.nomor_surat : "-"}
+                    </td>
                     <td>
                       <span className={getStatusBadge(surat.status)}>
                         {surat.status}

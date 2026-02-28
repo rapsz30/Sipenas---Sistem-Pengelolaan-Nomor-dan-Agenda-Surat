@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2026 at 06:50 AM
+-- Generation Time: Feb 28, 2026 at 10:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -83,6 +83,67 @@ CREATE TABLE `nomor_surat` (
   `tanggal_dipakai` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `nomor_surat`
+--
+
+INSERT INTO `nomor_surat` (`id_nomor`, `id_jenis_surat`, `nomor_surat`, `tanggal`, `available`, `tanggal_dipakai`) VALUES
+(45, 17, 'SKK.01/1', '2026-01-01', 'No', '2026-02-28 16:14:51'),
+(46, 17, 'SKK.01/2', '2026-01-01', 'Yes', NULL),
+(47, 17, 'SKK.01/3', '2026-01-01', 'Yes', NULL),
+(48, 17, 'SKK.01/4', '2026-01-01', 'Yes', NULL),
+(49, 17, 'SKK.01/5', '2026-01-01', 'Yes', NULL),
+(50, 17, 'SKK.01/6', '2026-01-01', 'Yes', NULL),
+(51, 17, 'SKK.01/7', '2026-01-01', 'Yes', NULL),
+(52, 17, 'SKK.01/8', '2026-01-01', 'Yes', NULL),
+(53, 17, 'SKK.01/9', '2026-01-01', 'Yes', NULL),
+(54, 17, 'SKK.01/10', '2026-01-01', 'Yes', NULL),
+(55, 17, 'SKK.01/11', '2026-01-01', 'Yes', NULL),
+(56, 16, 'SKD.01/1', '2026-01-01', 'No', '2026-02-28 16:15:11'),
+(57, 16, 'SKD.01/2', '2026-01-01', 'Yes', NULL),
+(58, 16, 'SKD.01/3', '2026-01-01', 'Yes', NULL),
+(59, 16, 'SKD.01/4', '2026-01-01', 'Yes', NULL),
+(60, 16, 'SKD.01/5', '2026-01-01', 'Yes', NULL),
+(61, 16, 'SKD.01/6', '2026-01-01', 'Yes', NULL),
+(62, 16, 'SKD.01/7', '2026-01-01', 'Yes', NULL),
+(63, 16, 'SKD.01/8', '2026-01-01', 'Yes', NULL),
+(64, 16, 'SKD.01/9', '2026-01-01', 'Yes', NULL),
+(65, 16, 'SKD.01/10', '2026-01-01', 'Yes', NULL),
+(66, 16, 'SKD.01/11', '2026-01-01', 'Yes', NULL),
+(67, 17, 'SKK.01/12', '2026-02-18', 'No', '2026-02-28 16:15:39'),
+(68, 17, 'SKK.01/13', '2026-02-18', 'Yes', NULL),
+(69, 17, 'SKK.01/14', '2026-02-18', 'Yes', NULL),
+(70, 17, 'SKK.01/15', '2026-02-18', 'Yes', NULL),
+(71, 17, 'SKK.01/16', '2026-02-18', 'Yes', NULL),
+(72, 17, 'SKK.01/17', '2026-02-18', 'Yes', NULL),
+(73, 17, 'SKK.01/18', '2026-02-18', 'Yes', NULL),
+(74, 17, 'SKK.01/19', '2026-02-18', 'Yes', NULL),
+(75, 17, 'SKK.01/20', '2026-02-18', 'Yes', NULL),
+(76, 17, 'SKK.01/21', '2026-02-18', 'Yes', NULL),
+(77, 17, 'SKK.01/22', '2026-02-18', 'Yes', NULL),
+(78, 17, 'SKK.01/23', '2026-02-28', 'No', '2026-02-28 16:16:36'),
+(79, 17, 'SKK.01/24', '2026-02-28', 'No', '2026-02-28 16:16:43'),
+(80, 17, 'SKK.01/25', '2026-02-28', 'Yes', NULL),
+(81, 17, 'SKK.01/26', '2026-02-28', 'Yes', NULL),
+(82, 17, 'SKK.01/27', '2026-02-28', 'Yes', NULL),
+(83, 17, 'SKK.01/28', '2026-02-28', 'Yes', NULL),
+(84, 17, 'SKK.01/29', '2026-02-28', 'Yes', NULL),
+(85, 17, 'SKK.01/30', '2026-02-28', 'Yes', NULL),
+(86, 17, 'SKK.01/31', '2026-02-28', 'Yes', NULL),
+(87, 17, 'SKK.01/32', '2026-02-28', 'Yes', NULL),
+(88, 17, 'SKK.01/33', '2026-02-28', 'Yes', NULL),
+(89, 16, 'SKD.01/12', '2026-02-28', 'No', '2026-02-28 16:16:48'),
+(90, 16, 'SKD.01/13', '2026-02-28', 'Yes', NULL),
+(91, 16, 'SKD.01/14', '2026-02-28', 'Yes', NULL),
+(92, 16, 'SKD.01/15', '2026-02-28', 'Yes', NULL),
+(93, 16, 'SKD.01/16', '2026-02-28', 'Yes', NULL),
+(94, 16, 'SKD.01/17', '2026-02-28', 'Yes', NULL),
+(95, 16, 'SKD.01/18', '2026-02-28', 'Yes', NULL),
+(96, 16, 'SKD.01/19', '2026-02-28', 'Yes', NULL),
+(97, 16, 'SKD.01/20', '2026-02-28', 'Yes', NULL),
+(98, 16, 'SKD.01/21', '2026-02-28', 'Yes', NULL),
+(99, 16, 'SKD.01/22', '2026-02-28', 'Yes', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -109,10 +170,12 @@ CREATE TABLE `pengajuan_surat` (
 --
 
 INSERT INTO `pengajuan_surat` (`id_pengajuan_surat`, `id_user`, `id_jenis_surat`, `id_periode`, `perihal_surat`, `file_lampiran`, `tanggal_pengajuan`, `status_pengajuan`, `nomor_surat_resmi`, `keterangan_surat`, `catatan_admin`, `tanggal_disetujui`) VALUES
-(1, 3, 16, 1, 'tes', '1772161726449.pdf', '2026-02-16 17:00:00', 'ditolak', NULL, 'tes', 'Tolak', NULL),
-(2, 3, 16, 1, 'tes1', '1772163292913.docx', '2026-02-02 17:00:00', 'disetujui', NULL, '', NULL, '2026-02-27 10:46:42'),
-(3, 3, 16, 2, 'Surat Keluar Dinas 1', '1772165050862.pdf', '2026-02-26 17:00:00', 'pending', NULL, '', NULL, NULL),
-(4, 3, 18, 2, 'Surat Cuti A.N Rafi', '1772167735491.pdf', '2026-02-26 17:00:00', 'disetujui', NULL, '', NULL, '2026-02-27 11:51:43');
+(10, 3, 16, 2, 'S', '1772269998685.pdf', '2025-12-31 17:00:00', 'disetujui', 'SKD.01/1', '', NULL, NULL),
+(11, 3, 16, 2, 'S', '1772270021514.docx', '2026-02-27 17:00:00', 'disetujui', 'SKD.01/12', 'S', NULL, NULL),
+(12, 3, 17, 2, 'S', '1772270039998.docx', '2025-12-31 17:00:00', 'disetujui', 'SKK.01/1', '', NULL, NULL),
+(13, 3, 17, 2, 'S', '1772270057190.docx', '2026-02-17 17:00:00', 'disetujui', 'SKK.01/12', '', NULL, NULL),
+(14, 3, 17, 2, 'S', '1772270074173.docx', '2026-02-27 17:00:00', 'disetujui', 'SKK.01/24', 'S', NULL, NULL),
+(15, 3, 17, 2, 'k', '1772270172403.pdf', '2026-02-27 17:00:00', 'disetujui', 'SKK.01/23', '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -234,13 +297,13 @@ ALTER TABLE `jenis_surat`
 -- AUTO_INCREMENT for table `nomor_surat`
 --
 ALTER TABLE `nomor_surat`
-  MODIFY `id_nomor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_nomor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `pengajuan_surat`
 --
 ALTER TABLE `pengajuan_surat`
-  MODIFY `id_pengajuan_surat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pengajuan_surat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `periode`

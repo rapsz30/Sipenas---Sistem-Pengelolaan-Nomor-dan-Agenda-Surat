@@ -857,6 +857,200 @@ app.put("/api/admin/pengajuan/:id/approve", (req, res) => {
   );
 });
 
+const cron = require("node-cron");
+
+// CRON JOB: Berjalan setiap jam 23:59 WIB untuk generate 10 Kuota Mundur
+cron.schedule(
+  "59 23 * * *",
+  async () => {
+    try {
+      const [jenisSurat] = await db
+        .promise()
+        .query("SELECT * FROM jenis_surat");
+      const today = new Date()
+        .toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" })
+        .split("T")[0];
+
+      for (const jenis of jenisSurat) {
+        const [rows] = await db
+          .promise()
+          .query(
+            "SELECT MAX(nomor_urut) as maxUrut FROM nomor_surat WHERE id_jenis_surat = ?",
+            [jenis.id_jenis_surat],
+          );
+        let currentMax = rows[0].maxUrut || 0;
+
+        for (let i = 1; i <= 10; i++) {
+          currentMax++;
+          const kode = jenis.kode_klasifikasi;
+          let formatSurat = "";
+
+          if (["SKD.01", "SKK.01", "TA.01", "ST.01"].includes(kode)) {
+            formatSurat = `${kode}/${currentMax}`;
+          } else if (kode === "C.01") {
+            formatSurat = `800/${kode}/${currentMax}-Sekre`;
+          } else {
+            formatSurat = `${kode}/${currentMax}`;
+          }
+
+          await db.promise().query(
+            `INSERT INTO nomor_surat (nomor_surat, nomor_urut, tanggal, id_jenis_surat, available) 
+                     VALUES (?, ?, ?, ?, 'yes')`,
+            [formatSurat, currentMax, today, jenis.id_jenis_surat],
+          );
+        }
+      }
+      console.log(
+        "Cron Job Sukses: Kuota penomoran mundur (10) berhasil dicadangkan.",
+      );
+    } catch (error) {
+      console.error("Error Cron Job:", error);
+    }
+  },
+  {
+    timezone: "Asia/Jakarta",
+  },
+);
+
+// ENDPOINT UNTUK MENDAPATKAN OPSI NOMOR SURAT (DROPDOWN)
+app.get("/api/nomor-surat/options", async (req, res) => {
+  const { tanggal, id_jenis_surat } = req.query;
+
+  // Pastikan format tanggal hanya "YYYY-MM-DD" dan menggunakan zona waktu lokal (WIB)
+  const requestDate = new Date(tanggal)
+    .toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" })
+    .split("T")[0];
+  const today = new Date()
+    .toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" })
+    .split("T")[0];
+
+  try {
+    if (requestDate >= today) {
+      // SKENARIO 1: HARI INI (Cuma 1 Opsi, Generate Nomor Baru)
+      const [rows] = await db
+        .promise()
+        .query(
+          "SELECT MAX(nomor_urut) as maxUrut FROM nomor_surat WHERE id_jenis_surat = ?",
+          [id_jenis_surat],
+        );
+      // Tambahkan 1 dari nomor terakhir yang ada di database
+      const nextUrut = (rows[0].maxUrut || 0) + 1;
+
+      const [jenisRow] = await db
+        .promise()
+        .query(
+          "SELECT kode_klasifikasi FROM jenis_surat WHERE id_jenis_surat = ?",
+          [id_jenis_surat],
+        );
+      const kode = jenisRow[0].kode_klasifikasi;
+
+      let formatSurat = "";
+      if (["SKD.01", "SKK.01", "TA.01", "ST.01"].includes(kode)) {
+        formatSurat = `${kode}/${nextUrut}`;
+      } else if (kode === "C.01") {
+        formatSurat = `800/${kode}/${nextUrut}-Sekre`;
+      } else {
+        formatSurat = `${kode}/${nextUrut}`;
+      }
+
+      return res.json([
+        {
+          is_new: true, // Flag bahwa ini bukan dari kuota mundur
+          nomor_surat: formatSurat,
+          nomor_urut: nextUrut,
+        },
+      ]);
+    } else {
+      // SKENARIO 2: TANGGAL MUNDUR (Maksimal 10 Opsi dari kuota sisa cron job)
+      const [options] = await db.promise().query(
+        `SELECT id_nomor_surat, nomor_surat, nomor_urut 
+                 FROM nomor_surat 
+                 WHERE DATE(tanggal) = ? AND id_jenis_surat = ? AND available = 'yes'
+                 ORDER BY nomor_urut ASC LIMIT 10`,
+        [requestDate, id_jenis_surat],
+      );
+
+      return res.json(
+        options.map((opt) => ({
+          is_new: false,
+          id_nomor_surat: opt.id_nomor_surat,
+          nomor_surat: opt.nomor_surat,
+          nomor_urut: opt.nomor_urut,
+        })),
+      );
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ENDPOINT UNTUK ACC SURAT & PENOMORAN
+app.put("/api/pengajuan-surat/:id/acc", async (req, res) => {
+  const { id } = req.params;
+  const { nomor_surat_resmi, nomor_data } = req.body;
+
+  try {
+    await db.promise().query("BEGIN"); // Mulai transaksi DB
+
+    // 1. Dapatkan data pengajuan
+    const [pengajuan] = await db
+      .promise()
+      .query(
+        "SELECT tanggal, id_jenis_surat FROM pengajuan_surat WHERE id_pengajuan = ?",
+        [id],
+      );
+
+    if (pengajuan.length === 0) {
+      await db.promise().query("ROLLBACK");
+      return res.status(404).json({ message: "Pengajuan tidak ditemukan" });
+    }
+
+    const surat = pengajuan[0];
+    const tglSurat = new Date(surat.tanggal)
+      .toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" })
+      .split("T")[0];
+
+    // 2. Kunci Logika Penomoran
+    if (nomor_data.is_new) {
+      // SKENARIO 1 (HARI INI): Insert nomor baru ini ke database dengan status available = 'no' (terpakai).
+      // Ini yang membuat surat hari ini berikutnya akan mendapatkan nomor selanjutnya (+1).
+      await db.promise().query(
+        `INSERT INTO nomor_surat (nomor_surat, nomor_urut, tanggal, id_jenis_surat, available) 
+             VALUES (?, ?, ?, ?, 'no')`,
+        [
+          nomor_data.nomor_surat,
+          nomor_data.nomor_urut,
+          tglSurat,
+          surat.id_jenis_surat,
+        ],
+      );
+    } else {
+      // SKENARIO 2 (TANGGAL MUNDUR): Ubah status kuota nomor tersebut menjadi 'no' (terpakai).
+      await db
+        .promise()
+        .query(
+          `UPDATE nomor_surat SET available = 'no' WHERE id_nomor_surat = ?`,
+          [nomor_data.id_nomor_surat],
+        );
+    }
+
+    // 3. Update status surat pengajuan
+    await db
+      .promise()
+      .query(
+        "UPDATE pengajuan_surat SET status = 'Selesai', nomor_surat_resmi = ? WHERE id_pengajuan = ?",
+        [nomor_surat_resmi, id],
+      );
+
+    await db.promise().query("COMMIT"); // Simpan semua perubahan
+    res.json({ message: "Surat berhasil disetujui dan dinomori" });
+  } catch (error) {
+    await db.promise().query("ROLLBACK"); // Batalkan jika ada error
+    console.error("Gagal menyetujui surat:", error);
+    res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server backend jalan di http://localhost:${PORT}`);
