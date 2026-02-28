@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import SidebarAdmin from "../../components/Sidebar/Admin/SidebarAdmin";
 import "./DashboardAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,66 +9,90 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardAdmin = () => {
+  // --- STATE UNTUK DATA DARI DATABASE ---
+  const [statsData, setStatsData] = useState({ total: 0, pending: 0, disetujui: 0 });
+  const [aktivitas, setAktivitas] = useState<any[]>([]);
+  const [kategori, setKategori] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // --- MENGAMBIL DATA SAAT HALAMAN DIMUAT ---
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/admin/dashboard");
+        const data = await res.json();
+
+        if (res.ok) {
+          // 1. Update Kotak Statistik
+          setStatsData({
+            total: data.stats.total || 0,
+            pending: data.stats.pending || 0,
+            disetujui: data.stats.disetujui || 0,
+          });
+
+          // 2. Format Data Aktivitas Terkini
+          const formattedAktivitas = data.aktivitas.map((a: any) => {
+            let statusFront = "Diproses";
+            if (a.status === "disetujui") statusFront = "Selesai";
+            if (a.status === "ditolak") statusFront = "Ditolak";
+
+            const d = new Date(a.tanggal_pengajuan);
+            const dateStr = `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getFullYear()}`;
+
+            return {
+              tanggal: dateStr,
+              bidang: a.bidang || "Tanpa Bidang",
+              jenis: a.jenis || "Tanpa Jenis",
+              status: statusFront,
+            };
+          });
+          setAktivitas(formattedAktivitas);
+
+          // 3. Format Data Kategori (Pastikan terbaca sebagai Angka)
+          const formattedKategori = data.kategori.map((k: any) => ({
+            nama: k.nama,
+            menunggu: Number(k.menunggu),
+            disetujui: Number(k.disetujui),
+            ditolak: Number(k.ditolak),
+          }));
+          setKategori(formattedKategori);
+        }
+      } catch (err) {
+        console.error("Gagal mengambil data dashboard:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
+
+  // Konfigurasi visual untuk Kotak Statistik
   const stats = [
     {
       title: "Total Surat",
-      value: 254,
-      change: "12% dari minggu lalu",
+      value: statsData.total,
+      change: "Diperbarui hari ini",
       changeColor: "green",
       iconColor: "#2563EB",
       icon: faChartLine,
     },
     {
       title: "Menunggu Tindakan",
-      value: 128,
-      change: "8% dari minggu lalu",
+      value: statsData.pending,
+      change: "Diperbarui hari ini",
       changeColor: "green",
       iconColor: "#D97706",
       icon: faClock,
     },
     {
       title: "Surat Terverifikasi",
-      value: 123,
-      change: "3% dari minggu lalu",
+      value: statsData.disetujui,
+      change: "Diperbarui hari ini",
       changeColor: "red",
       iconColor: "#16A34A",
       icon: faCircleCheck,
     },
-  ];
-
-  const aktivitas = [
-    {
-      tanggal: "1-2-2026",
-      bidang: "Surat Keluar Dinas",
-      jenis: "Surat Keluar Dinas",
-      status: "Diproses",
-    },
-    {
-      tanggal: "2-2-2026",
-      bidang: "Surat Keputusan Kadis",
-      jenis: "Surat Keputusan Kadis",
-      status: "Selesai",
-    },
-    {
-      tanggal: "3-2-2026",
-      bidang: "Surat Cuti",
-      jenis: "Surat Cuti",
-      status: "Diproses",
-    },
-    {
-      tanggal: "4-2-2026",
-      bidang: "Surat Tidak Absen",
-      jenis: "Surat Tidak Absen",
-      status: "Selesai",
-    },
-  ];
-
-  // Dummy Data Kategori yang Diperbarui
-  const kategori = [
-    { nama: "Surat Keluar Dinas", menunggu: 5, disetujui: 9, ditolak: 1 },
-    { nama: "Surat Keputusan Kadis", menunggu: 12, disetujui: 18, ditolak: 0 },
-    { nama: "Surat Cuti", menunggu: 3, disetujui: 15, ditolak: 2 },
-    { nama: "Surat Edaran", menunggu: 1, disetujui: 5, ditolak: 0 },
   ];
 
   return (
@@ -83,12 +108,14 @@ const DashboardAdmin = () => {
         <div className="dashboard-subtitle">
           Selamat datang di Sistem Pengelolaan Nomor dan Agenda Surat
         </div>
+        
+        {/* KOTAK STATISTIK */}
         <div className="stats-row">
           {stats.map((s, i) => (
             <div key={i} className="stat-card">
               <div>
                 <div className="stat-title">{s.title}</div>
-                <div className="stat-number">{s.value}</div>
+                <div className="stat-number">{isLoading ? "..." : s.value}</div>
                 <div className={`stat-change ${s.changeColor}`}>{s.change}</div>
               </div>
 
@@ -101,6 +128,7 @@ const DashboardAdmin = () => {
           ))}
         </div>
 
+        {/* TABEL AKTIVITAS TERKINI */}
         <div className="large-card">
           <div className="table-header">
             <h3>Aktivitas Terkini</h3>
@@ -117,28 +145,41 @@ const DashboardAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {aktivitas.map((item, i) => (
-                <tr key={i}>
-                  <td>{item.tanggal}</td>
-                  <td>{item.bidang}</td>
-                  <td>{item.jenis}</td>
-                  <td>
-                    <span
-                      className={
-                        item.status === "Selesai"
-                          ? "badge success"
-                          : "badge warning"
-                      }
-                    >
-                      {item.status}
-                    </span>
-                  </td>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: "center", padding: "15px" }}>Memuat Data...</td>
                 </tr>
-              ))}
+              ) : aktivitas.length === 0 ? (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: "center", padding: "15px" }}>Belum ada aktivitas surat.</td>
+                </tr>
+              ) : (
+                aktivitas.map((item, i) => (
+                  <tr key={i}>
+                    <td>{item.tanggal}</td>
+                    <td>{item.bidang}</td>
+                    <td>{item.jenis}</td>
+                    <td>
+                      <span
+                        className={
+                          item.status === "Selesai"
+                            ? "badge success"
+                            : item.status === "Ditolak"
+                            ? "badge danger"
+                            : "badge warning"
+                        }
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
 
+        {/* TABEL LAPORAN KATEGORI */}
         <div className="large-card">
           <div
             className="table-header"
@@ -166,29 +207,39 @@ const DashboardAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {kategori.map((k, i) => {
-                const total = k.menunggu + k.disetujui + k.ditolak;
+              {isLoading ? (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center", padding: "15px" }}>Memuat Data...</td>
+                </tr>
+              ) : kategori.length === 0 ? (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center", padding: "15px" }}>Belum ada data kategori.</td>
+                </tr>
+              ) : (
+                kategori.map((k, i) => {
+                  const total = k.menunggu + k.disetujui + k.ditolak;
 
-                return (
-                  <tr key={i}>
-                    <td style={{ fontWeight: "500", color: "#374151" }}>
-                      {k.nama}
-                    </td>
-                    <td style={{ color: "#d97706", fontWeight: "600" }}>
-                      {k.menunggu}
-                    </td>
-                    <td style={{ color: "#166534", fontWeight: "600" }}>
-                      {k.disetujui}
-                    </td>
-                    <td style={{ color: "#b91c1c", fontWeight: "600" }}>
-                      {k.ditolak}
-                    </td>
-                    <td style={{ fontWeight: "700", color: "#111827" }}>
-                      {total}
-                    </td>
-                  </tr>
-                );
-              })}
+                  return (
+                    <tr key={i}>
+                      <td style={{ fontWeight: "500", color: "#374151" }}>
+                        {k.nama}
+                      </td>
+                      <td style={{ color: "#d97706", fontWeight: "600" }}>
+                        {k.menunggu}
+                      </td>
+                      <td style={{ color: "#166534", fontWeight: "600" }}>
+                        {k.disetujui}
+                      </td>
+                      <td style={{ color: "#b91c1c", fontWeight: "600" }}>
+                        {k.ditolak}
+                      </td>
+                      <td style={{ fontWeight: "700", color: "#111827" }}>
+                        {total}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>

@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartPie,
   faEnvelopeOpenText,
-  faCalendarDays,
+  faGear,
   faRightFromBracket,
   faUser,
   faBars,
@@ -15,12 +15,20 @@ import {
 const SidebarAdmin = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate(); // 1. Tambahkan useNavigate
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({ namaLengkap: "Loading...", jabatan: "Loading..." });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
 
   const menuItems = [
     { name: "Dashboard", path: "/admin", icon: faChartPie },
     { name: "Kelola Surat", path: "/kelola-surat", icon: faEnvelopeOpenText },
-    { name: "Atur Periode", path: "/atur-periode", icon: faCalendarDays },
+    { name: "Pengaturan", path: "/atur-periode", icon: faGear },
   ];
 
   const handleLogout = () => {
@@ -78,8 +86,8 @@ const SidebarAdmin = () => {
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className="user-info">
-              <strong>Admin</strong>
-              <span>Administrator</span>
+              <strong>{userData.namaLengkap}</strong>
+              <span>{userData.jabatan}</span>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardOperator.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,90 +12,112 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardOperator = () => {
+  // 1. STATE UNTUK STATISTIK DARI BACKEND
+  const [statsData, setStatsData] = useState({
+    total: 0,
+    pending: 0,
+    ditolak: 0,
+    disetujui: 0,
+  });
+
   const stats = [
     {
       title: "Total Pengajuan",
-      value: 6,
-      change: "12% dari minggu lalu",
+      value: statsData.total,
+      change: "Diperbarui hari ini",
       changeColor: "green",
       iconColor: "#2174FF",
       icon: faFileAlt,
     },
     {
       title: "Menunggu Verifikasi",
-      value: 3,
-      change: "8% dari minggu lalu",
+      value: statsData.pending,
+      change: "Diperbarui hari ini",
       changeColor: "green",
       iconColor: "#D97706",
       icon: faClock,
     },
     {
       title: "Ditolak",
-      value: 1,
-      change: "1% dari minggu lalu",
+      value: statsData.ditolak,
+      change: "Diperbarui hari ini",
       changeColor: "red",
       iconColor: "#ef4444",
       icon: faTimesCircle,
     },
     {
       title: "Disetujui",
-      value: 2,
-      change: "3% dari minggu lalu",
+      value: statsData.disetujui,
+      change: "Diperbarui hari ini",
       changeColor: "red",
       iconColor: "#22c55e",
       icon: faCircleCheck,
     },
   ];
 
-  // Dummy Data yang diperbarui dengan Perihal, Status, dan data untuk Modal
-  const [history] = useState([
-    {
-      id: 1,
-      tanggal: "1-2-2026",
-      jenis: "Surat Keluar Dinas",
-      perihal: "Undangan Rapat Evaluasi",
-      status: "Diterima",
-      nomorSurat: "005/024/UMUM/2026",
-      fileAwal: "Undangan_Rapat_Draft.pdf",
-      catatanAdmin: "",
-    },
-    {
-      id: 2,
-      tanggal: "2-2-2026",
-      jenis: "Surat Keputusan Kadis",
-      perihal: "Pencairan Anggaran Q1",
-      status: "Diproses",
-      nomorSurat: "-",
-      fileAwal: "SK_Pencairan_Draft.pdf",
-      catatanAdmin: "",
-    },
-    {
-      id: 3,
-      tanggal: "3-2-2026",
-      jenis: "Surat Cuti",
-      perihal: "Cuti Tahunan",
-      status: "Ditolak",
-      nomorSurat: "-",
-      fileAwal: "Form_Cuti_Budi.pdf",
-      fileResmi: "Form_Cuti_Revisi_Admin.pdf",
-      catatanAdmin:
-        "Lampiran kurang lengkap, mohon sertakan tanda tangan atasan langsung.",
-    },
-    {
-      id: 4,
-      tanggal: "4-2-2026",
-      jenis: "Surat Tidak Absen",
-      perihal: "Keterangan Sakit",
-      status: "Diterima",
-      nomorSurat: "800/015/KEP/2026",
-      fileAwal: "Surat_Sakit.pdf",
-      catatanAdmin: "",
-    },
-  ]);
+  // 2. STATE UNTUK RIWAYAT TABEL DARI BACKEND
+  const [history, setHistory] = useState<any[]>([]);
 
-  // STATE UNTUK MODAL DETAIL
+  // 3. STATE UNTUK MODAL DETAIL (Tetap sama persis)
   const [showModal, setShowModal] = useState(false);
   const [selectedSurat, setSelectedSurat] = useState<any>(null);
+
+  // 4. MENGAMBIL DATA DARI API SAAT HALAMAN DIMUAT
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      // Ambil ID dari sesi yang login
+      const userString = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
+      if (!user || !user.userId) return;
+
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/dashboard/operator/${user.userId}`,
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          // Update Kotak Statistik
+          setStatsData({
+            total: data.stats.totalSurat || 0,
+            pending: data.stats.pendingSurat || 0,
+            disetujui: data.stats.disetujuiSurat || 0,
+            ditolak: data.stats.ditolakSurat || 0,
+          });
+
+          // Memformat data MySQL agar strukturnya SAMA PERSIS dengan Dummy Data milikmu sebelumnya
+          const formattedHistory = (data.history || []).map((item: any) => {
+            // Ubah bahasa database ke bahasa UI kamu
+            let statusFront = "Diproses";
+            if (item.status_pengajuan === "disetujui") statusFront = "Diterima";
+            if (item.status_pengajuan === "ditolak") statusFront = "Ditolak";
+            if (item.status_pengajuan === "pending") statusFront = "Diproses";
+
+            const dateObj = new Date(item.tanggal_pengajuan);
+            const dateStr = `${dateObj.getDate()}-${dateObj.getMonth() + 1}-${dateObj.getFullYear()}`;
+
+            return {
+              id: item.id_pengajuan_surat,
+              tanggal: dateStr,
+              jenis: item.nama_jenis || "Belum ada jenis",
+              perihal: item.perihal_surat || "-",
+              status: statusFront,
+              nomorSurat: item.nomor_surat_resmi || "-",
+              fileAwal: item.file_lampiran || "Tidak ada lampiran",
+              fileResmi: item.file_balasan || "",
+              catatanAdmin: item.catatan_admin || "",
+            };
+          });
+
+          setHistory(formattedHistory);
+        }
+      } catch (error) {
+        console.error("Gagal memuat data dashboard:", error);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   const handleViewDetail = (surat: any) => {
     setSelectedSurat(surat);
@@ -168,32 +190,43 @@ const DashboardOperator = () => {
               </tr>
             </thead>
             <tbody>
-              {history.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.tanggal}</td>
-                  <td>{item.jenis}</td>
-                  <td>{item.perihal}</td>
-                  <td>
-                    <span className={getStatusBadge(item.status)}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="eye-btn"
-                      title="Lihat Detail"
-                      onClick={() => handleViewDetail(item)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        padding: "0",
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faEye} />
-                    </button>
+              {history.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    style={{ textAlign: "center", padding: "20px" }}
+                  >
+                    Belum ada pengajuan surat
                   </td>
                 </tr>
-              ))}
+              ) : (
+                history.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.tanggal}</td>
+                    <td>{item.jenis}</td>
+                    <td>{item.perihal}</td>
+                    <td>
+                      <span className={getStatusBadge(item.status)}>
+                        {item.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="eye-btn"
+                        title="Lihat Detail"
+                        onClick={() => handleViewDetail(item)}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          padding: "0",
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEye} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -265,19 +298,7 @@ const DashboardOperator = () => {
                   className="detail-grid"
                   style={{ marginTop: "16px", marginBottom: "0" }}
                 >
-                  <div className="detail-label">File Surat Resmi/Revisi:</div>
-                  <div className="detail-value">
-                    <a
-                      href="#"
-                      className="file-link"
-                      style={{ color: "#ef4444" }}
-                    >
-                      <FontAwesomeIcon icon={faFilePdf} />{" "}
-                      {selectedSurat.fileResmi || "Tidak ada lampiran admin"}
-                    </a>
-                  </div>
-
-                  <div className="detail-label">File Awal Anda:</div>
+                  <div className="detail-label">File Anda:</div>
                   <div className="detail-value">
                     <a
                       href="#"

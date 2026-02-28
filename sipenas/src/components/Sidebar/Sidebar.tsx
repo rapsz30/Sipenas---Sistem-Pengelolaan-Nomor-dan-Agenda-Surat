@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +15,17 @@ const Sidebar = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  
+  // State untuk menyimpan data user
+  const [userData, setUserData] = useState({ namaLengkap: "Loading...", jabatan: "Loading..." });
+
+  useEffect(() => {
+    // Ambil data user dari localStorage saat komponen di-mount
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
 
   const menuItems = [
     { name: "Dashboard", path: "/operator", icon: faChartPie },
@@ -76,8 +87,8 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className="user-info">
-              <strong>Nama User</strong>
-              <span>Jabatan</span>
+              <strong>{userData.namaLengkap}</strong>
+              <span>{userData.jabatan}</span>
             </div>
           </div>
         </div>

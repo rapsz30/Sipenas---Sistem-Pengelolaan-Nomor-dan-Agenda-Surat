@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2026 at 03:11 AM
+-- Generation Time: Feb 27, 2026 at 07:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -56,6 +56,17 @@ CREATE TABLE `jenis_surat` (
   `nama_jenis` enum('Surat Keluar Dinas','Surat Keputusan Kadis','Surat Cuti','Surat Tidak Absen','Surat Tugas') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `jenis_surat`
+--
+
+INSERT INTO `jenis_surat` (`id_jenis_surat`, `nama_jenis`) VALUES
+(16, 'Surat Keluar Dinas'),
+(17, 'Surat Keputusan Kadis'),
+(18, 'Surat Cuti'),
+(19, 'Surat Tidak Absen'),
+(20, 'Surat Tugas');
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +88,16 @@ CREATE TABLE `pengajuan_surat` (
   `tanggal_disetujui` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pengajuan_surat`
+--
+
+INSERT INTO `pengajuan_surat` (`id_pengajuan_surat`, `id_user`, `id_jenis_surat`, `id_periode`, `perihal_surat`, `file_lampiran`, `tanggal_pengajuan`, `status_pengajuan`, `nomor_surat_resmi`, `keterangan_surat`, `catatan_admin`, `tanggal_disetujui`) VALUES
+(1, 3, 16, 1, 'tes', '1772161726449.pdf', '2026-02-16 17:00:00', 'ditolak', NULL, 'tes', 'Tolak', NULL),
+(2, 3, 16, 1, 'tes1', '1772163292913.docx', '2026-02-02 17:00:00', 'disetujui', 'XYZ/100/200X', '', NULL, '2026-02-27 10:46:42'),
+(3, 3, 16, 2, 'Surat Keluar Dinas 1', '1772165050862.pdf', '2026-02-26 17:00:00', 'pending', NULL, '', NULL, NULL),
+(4, 3, 18, 2, 'Surat Cuti A.N Rafi', '1772167735491.pdf', '2026-02-26 17:00:00', 'disetujui', '10/25/26', '', NULL, '2026-02-27 11:51:43');
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +111,14 @@ CREATE TABLE `periode` (
   `tanggal_berakhir` date NOT NULL,
   `status_periode` enum('aktif','tidak aktif') DEFAULT 'aktif'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `periode`
+--
+
+INSERT INTO `periode` (`id_periode`, `nama_periode`, `tanggal_mulai`, `tanggal_berakhir`, `status_periode`) VALUES
+(1, 'Periode Q1 2026', '2026-01-01', '2026-02-01', 'tidak aktif'),
+(2, 'Periode Q2 2026', '2026-02-01', '2026-02-28', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -116,8 +145,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_users`, `id_bidang`, `nama_lengkap`, `username`, `password`, `is_first_login`, `role`, `email`, `google_auth_secret`, `otp_email`, `otp_expiry`) VALUES
-(2, 1, 'Admin Utama', 'admin', '$2b$10$ZE9wdFXzC/iELvv/qh/fuuqVQhPE.5n9ThvfPFfOl4yBjXlXP.mqK', 0, 'admin', 'rafihendryansyah26@gmail.com', 'FFSFS7AEMJTV6FTG', '503231', '2026-02-26 14:38:48'),
-(3, 1, 'Pegawai Operator', 'Mohamad Rafi', '$2b$10$xEZZND.fbFzqyEsZxAEq8OhE9mz1E9vFBH/pAhRL/k.uoI0ywGQjG', 0, 'operator', '23523064@students.uii.ac.id', 'GQACCTKFARZCGF2X', NULL, NULL);
+(2, 1, 'Rafi', 'Sekretariat', '$2b$10$ZE9wdFXzC/iELvv/qh/fuuqVQhPE.5n9ThvfPFfOl4yBjXlXP.mqK', 0, 'admin', 'rafihendryansyah26@gmail.com', 'FFSFS7AEMJTV6FTG', '503231', '2026-02-26 14:38:48'),
+(3, 3, 'Mohamad Rafi', 'operator e-gov', '$2b$10$xEZZND.fbFzqyEsZxAEq8OhE9mz1E9vFBH/pAhRL/k.uoI0ywGQjG', 0, 'operator', '23523064@students.uii.ac.id', 'GQACCTKFARZCGF2X', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -174,19 +203,19 @@ ALTER TABLE `bidang`
 -- AUTO_INCREMENT for table `jenis_surat`
 --
 ALTER TABLE `jenis_surat`
-  MODIFY `id_jenis_surat` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_jenis_surat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `pengajuan_surat`
 --
 ALTER TABLE `pengajuan_surat`
-  MODIFY `id_pengajuan_surat` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengajuan_surat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `periode`
 --
 ALTER TABLE `periode`
-  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
