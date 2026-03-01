@@ -9,7 +9,6 @@ import InputField from "../../components/InputField/InputField";
 const AjukanSurat = () => {
   const navigate = useNavigate();
 
-  // STATE UNTUK FORM
   const [jenisSuratList, setJenisSuratList] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     id_jenis_surat: "",
@@ -22,11 +21,9 @@ const AjukanSurat = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Ambil Data User Sesi Saat Ini
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
-  // FETCH JENIS SURAT UNTUK DROPDOWN SAAT HALAMAN DIMUAT
   useEffect(() => {
     fetch("http://localhost:5000/api/jenis-surat")
       .then((res) => res.json())
@@ -35,13 +32,9 @@ const AjukanSurat = () => {
       })
       .catch((err) => console.error("Gagal load jenis surat:", err));
   }, []);
-
-  // HANDLER PERUBAHAN INPUT TEKS
   const handleChange = (e: any, fieldName: string) => {
     setFormData({ ...formData, [fieldName]: e.target.value });
   };
-
-  // HANDLER PERUBAHAN FILE
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -52,7 +45,6 @@ const AjukanSurat = () => {
     setFile(null);
   };
 
-  // HANDLER SUBMIT KE BACKEND
   const handleSubmit = async () => {
     if (!isConfirmed) {
       alert("Centang kotak persetujuan terlebih dahulu!");
@@ -64,8 +56,6 @@ const AjukanSurat = () => {
     }
 
     setIsLoading(true);
-
-    // KITA HARUS MENGGUNAKAN FORMDATA KARENA MENGIRIM FILE
     const submitData = new FormData();
     submitData.append("id_user", user.userId);
     submitData.append("id_jenis_surat", formData.id_jenis_surat);
@@ -78,14 +68,14 @@ const AjukanSurat = () => {
     try {
       const response = await fetch("http://localhost:5000/api/pengajuan", {
         method: "POST",
-        body: submitData, // Tidak butuh header Content-Type, otomatis diatur browser
+        body: submitData, 
       });
 
       const data = await response.json();
 
       if (response.ok) {
         alert("Berhasil! " + data.message);
-        navigate("/operator"); // Kembali ke dashboard setelah sukses
+        navigate("/operator"); 
       } else {
         alert("Gagal: " + data.message);
       }
@@ -129,7 +119,6 @@ const AjukanSurat = () => {
                 onChange={(e) => handleChange(e, "id_jenis_surat")}
               >
                 <option value="">Type Surat</option>
-                {/* Looping data dari database */}
                 {jenisSuratList.map((jenis) => (
                   <option key={jenis.id_jenis_surat} value={jenis.id_jenis_surat}>
                     {jenis.nama_jenis}
@@ -179,7 +168,6 @@ const AjukanSurat = () => {
             />
           </div>
 
-          {/* Upload File */}
           <div className="form-group">
             <label>Unggah File Surat*</label>
 

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
+import "./ForceChangePassword.css";
+
 
 const ForceChangePassword = () => {
   const navigate = useNavigate();
@@ -9,10 +11,8 @@ const ForceChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Ambil ID User dari localStorage yang disimpan saat login tadi
   const userId = localStorage.getItem("tempUserId");
 
-  // Jika user iseng mengakses halaman ini secara langsung tanpa login, tendang balik ke login
   useEffect(() => {
     if (!userId) {
       navigate("/");
@@ -23,7 +23,6 @@ const ForceChangePassword = () => {
     e.preventDefault();
     setErrorMsg("");
 
-    // Validasi dasar
     if (newPassword.length < 6) {
       setErrorMsg("Kata sandi baru minimal 6 karakter!");
       return;
@@ -50,7 +49,6 @@ const ForceChangePassword = () => {
         return;
       }
 
-      // Jika sukses, hapus tempUserId dan suruh login ulang
       alert(data.message);
       localStorage.removeItem("tempUserId");
       navigate("/");

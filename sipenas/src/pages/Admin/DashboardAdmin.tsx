@@ -9,13 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardAdmin = () => {
-  // --- STATE UNTUK DATA DARI DATABASE ---
   const [statsData, setStatsData] = useState({ total: 0, pending: 0, disetujui: 0 });
   const [aktivitas, setAktivitas] = useState<any[]>([]);
   const [kategori, setKategori] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // --- MENGAMBIL DATA SAAT HALAMAN DIMUAT ---
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
@@ -23,14 +21,12 @@ const DashboardAdmin = () => {
         const data = await res.json();
 
         if (res.ok) {
-          // 1. Update Kotak Statistik
           setStatsData({
             total: data.stats.total || 0,
             pending: data.stats.pending || 0,
             disetujui: data.stats.disetujui || 0,
           });
 
-          // 2. Format Data Aktivitas Terkini
           const formattedAktivitas = data.aktivitas.map((a: any) => {
             let statusFront = "Diproses";
             if (a.status === "disetujui") statusFront = "Selesai";
@@ -47,8 +43,6 @@ const DashboardAdmin = () => {
             };
           });
           setAktivitas(formattedAktivitas);
-
-          // 3. Format Data Kategori (Pastikan terbaca sebagai Angka)
           const formattedKategori = data.kategori.map((k: any) => ({
             nama: k.nama,
             menunggu: Number(k.menunggu),
@@ -67,7 +61,6 @@ const DashboardAdmin = () => {
     fetchDashboard();
   }, []);
 
-  // Konfigurasi visual untuk Kotak Statistik
   const stats = [
     {
       title: "Total Surat",
@@ -109,7 +102,6 @@ const DashboardAdmin = () => {
           Selamat datang di Sistem Pengelolaan Nomor dan Agenda Surat
         </div>
         
-        {/* KOTAK STATISTIK */}
         <div className="stats-row">
           {stats.map((s, i) => (
             <div key={i} className="stat-card">
@@ -128,7 +120,6 @@ const DashboardAdmin = () => {
           ))}
         </div>
 
-        {/* TABEL AKTIVITAS TERKINI */}
         <div className="large-card">
           <div className="table-header">
             <h3>Aktivitas Terkini</h3>
@@ -178,8 +169,6 @@ const DashboardAdmin = () => {
             </tbody>
           </table>
         </div>
-
-        {/* TABEL LAPORAN KATEGORI */}
         <div className="large-card">
           <div
             className="table-header"

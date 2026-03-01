@@ -15,7 +15,6 @@ const ForgotPass1 = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Jika user iseng mengakses halaman ini secara langsung tanpa mengisi email di halaman sebelumnya, tendang balik
   useEffect(() => {
     if (!emailToReset) {
       navigate("/forgot-password");
@@ -25,8 +24,6 @@ const ForgotPass1 = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
-
-    // Validasi input di sisi frontend
     if (newPassword.length < 6) {
       setErrorMsg("Kata sandi baru minimal 6 karakter!");
       return;
@@ -58,7 +55,7 @@ const ForgotPass1 = () => {
         setErrorMsg(data.message);
       } else {
         alert("Berhasil! " + data.message);
-        navigate("/"); // Pindah kembali ke halaman login jika sukses
+        navigate("/"); 
       }
     } catch (error) {
       console.error("Error:", error);

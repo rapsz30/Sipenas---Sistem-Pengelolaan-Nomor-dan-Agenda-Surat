@@ -16,11 +16,9 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   
-  // State untuk menyimpan data user
   const [userData, setUserData] = useState({ namaLengkap: "Loading...", jabatan: "Loading..." });
 
   useEffect(() => {
-    // Ambil data user dari localStorage saat komponen di-mount
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUserData(JSON.parse(storedUser));

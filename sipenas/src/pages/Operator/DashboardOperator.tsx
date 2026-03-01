@@ -12,7 +12,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardOperator = () => {
-  // 1. STATE UNTUK STATISTIK DARI BACKEND
   const [statsData, setStatsData] = useState({
     total: 0,
     pending: 0,
@@ -54,18 +53,13 @@ const DashboardOperator = () => {
       icon: faCircleCheck,
     },
   ];
-
-  // 2. STATE UNTUK RIWAYAT TABEL DARI BACKEND
   const [history, setHistory] = useState<any[]>([]);
 
-  // 3. STATE UNTUK MODAL DETAIL (Tetap sama persis)
   const [showModal, setShowModal] = useState(false);
   const [selectedSurat, setSelectedSurat] = useState<any>(null);
 
-  // 4. MENGAMBIL DATA DARI API SAAT HALAMAN DIMUAT
   useEffect(() => {
     const fetchDashboardData = async () => {
-      // Ambil ID dari sesi yang login
       const userString = localStorage.getItem("user");
       const user = userString ? JSON.parse(userString) : null;
       if (!user || !user.userId) return;
@@ -77,7 +71,6 @@ const DashboardOperator = () => {
         const data = await response.json();
 
         if (response.ok) {
-          // Update Kotak Statistik
           setStatsData({
             total: data.stats.totalSurat || 0,
             pending: data.stats.pendingSurat || 0,
@@ -85,9 +78,7 @@ const DashboardOperator = () => {
             ditolak: data.stats.ditolakSurat || 0,
           });
 
-          // Memformat data MySQL agar strukturnya SAMA PERSIS dengan Dummy Data milikmu sebelumnya
           const formattedHistory = (data.history || []).map((item: any) => {
-            // Ubah bahasa database ke bahasa UI kamu
             let statusFront = "Diproses";
             if (item.status_pengajuan === "disetujui") statusFront = "Diterima";
             if (item.status_pengajuan === "ditolak") statusFront = "Ditolak";

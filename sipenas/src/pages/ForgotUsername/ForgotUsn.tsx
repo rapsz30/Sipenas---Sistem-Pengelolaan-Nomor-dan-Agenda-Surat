@@ -31,8 +31,8 @@ const ForgotUsn = () => {
       if (!response.ok) {
         setErrorMsg(data.message);
       } else {
-        setMessage(data.message); // Tampilkan pesan sukses dari backend
-        setEmail(""); // Kosongkan input setelah berhasil
+        setMessage(data.message); 
+        setEmail(""); 
       }
     } catch (error) {
       console.error("Error:", error);
@@ -56,8 +56,6 @@ const ForgotUsn = () => {
         Masukkan alamat email yang terdaftar. Kami akan mengirimkan nama
         pengguna Anda ke email tersebut.
       </p>
-
-      {/* Tampilkan pesan Error atau Sukses */}
       {errorMsg && (
         <div
           style={{

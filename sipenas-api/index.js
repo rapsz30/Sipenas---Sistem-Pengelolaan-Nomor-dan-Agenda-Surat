@@ -554,6 +554,7 @@ app.get("/api/admin/surat", (req, res) => {
             ps.perihal_surat as perihal,
             ps.status_pengajuan as status,
             ps.file_lampiran as file, 
+            ps.nomor_surat_resmi, /* TAMBAHKAN BARIS INI */
             js.nama_jenis as jenis,
             b.nama_bidang as asal
         FROM pengajuan_surat ps

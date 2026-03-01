@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [errorMsg, setErrorMsg] = useState(""); 
-  const [qrCodeUrl, setQrCodeUrl] = useState(""); // State untuk menampung gambar QR
+  const [qrCodeUrl, setQrCodeUrl] = useState(""); 
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,8 +29,6 @@ const Login = () => {
         setErrorMsg(data.message);
         return;
       }
-
-      // 1. Jika butuh ganti password (login pertama)
       if (data.requiresPasswordChange) {
         alert(data.message);
         localStorage.setItem("tempUserId", data.userId);
@@ -38,19 +36,14 @@ const Login = () => {
         return; 
       }
 
-      // 2. Jika butuh scan QR (belum punya OTP)
       if (data.requiresSetupOTP) {
         setQrCodeUrl(data.qrCodeUrl); 
         alert(data.message);
         return;
       }
-
-      // 3. Jika butuh ketik OTP (sudah scan, tapi kolom OTP kosong)
       if (data.requiresOTP) {
         return; 
       }
-
-      // 4. JIKA LOGIN SUKSES PENUH
       if (data.success) {
         alert("Login Berhasil!");
         localStorage.setItem("user", JSON.stringify(data));
@@ -111,8 +104,6 @@ const Login = () => {
             Lupa Kata Sandi?
           </Link>
         </div>
-
-        {/* --- TAMPILAN QR CODE JIKA DIMINTA --- */}
         {qrCodeUrl && (
           <div style={{ textAlign: "center", marginBottom: "20px", padding: "10px", backgroundColor: "#f9f9f9", borderRadius: "8px" }}>
             <p style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "10px" }}>

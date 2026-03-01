@@ -1,5 +1,3 @@
-// src/pages/Admin/DaftarPeriode.tsx
-
 import React, { useState, useEffect } from "react";
 import SidebarAdmin from "../../components/Sidebar/Admin/SidebarAdmin";
 import "./DaftarPeriode.css";

@@ -21,6 +21,12 @@ import ForceChangePassword from "./pages/ForceChangePassword/ForceChangePassword
 
 import "./App.css";
 
+/*Akun User dan Password:
+  Sekretariat : admin123
+  operator e-gov : operator123
+*/
+
+
 function App() {
   return (
     <BrowserRouter>
