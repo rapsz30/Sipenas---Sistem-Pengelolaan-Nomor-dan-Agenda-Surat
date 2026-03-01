@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
-import "./ForceChangePassword.css";
 
 
 const ForceChangePassword = () => {

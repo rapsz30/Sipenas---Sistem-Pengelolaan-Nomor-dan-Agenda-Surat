@@ -1,79 +1,126 @@
-# ✉️ SIPENAS (Sistem Pengelolaan Nomor dan Agenda Surat)
+# SIPENAS - Sistem Pengelolaan Nomor dan Agenda Surat
 
-SIPENAS adalah aplikasi berbasis web yang dirancang untuk mendigitalisasi, mempermudah, dan mempercepat proses pengajuan, verifikasi, serta pencatatan agenda nomor surat resmi di sebuah instansi atau perusahaan.
+![SIPENAS Banner](https://via.placeholder.com/1200x300.png?text=SIPENAS+-+Sistem+Pengelolaan+Nomor+dan+Agenda+Surat) **SIPENAS** adalah sebuah aplikasi berbasis web yang dirancang untuk memudahkan instansi atau organisasi dalam mengelola penomoran dan pengarsipan agenda surat secara digital. Dengan SIPENAS, proses pencatatan, pelacakan, dan penyimpanan surat (baik surat masuk maupun surat keluar) menjadi lebih terstruktur, transparan, dan efisien.
 
-Sistem ini memisahkan hak akses antara **Operator** (yang mengajukan surat) dan **Admin** (yang memverifikasi dan mengelola sistem), sehingga alur birokrasi persuratan menjadi lebih transparan, rapi, dan terdokumentasi dengan baik.
+## 🚀 Fitur Utama
 
----
-
-## ✨ Fitur Utama
-
-### 👨‍💼 Hak Akses Operator
-* **Dashboard Operator:** Ringkasan statistik status pengajuan surat.
-* **Pengajuan Surat Baru:** Formulir untuk meminta nomor surat resmi dilengkapi dengan unggahan lampiran.
-* **Riwayat Pengajuan:** Melacak status surat yang sedang diproses, disetujui, atau butuh revisi.
-
-### 🛡️ Hak Akses Admin
-* **Dashboard Admin:** Statistik komprehensif seluruh aktivitas persuratan di dalam sistem.
-* **Kelola Surat:** * Melihat daftar antrean surat masuk.
-  * Fitur *Search* dan *Filter* lanjutan (berdasarkan jenis, status, tanggal, dan asal bidang).
-  * **Approve:** Menyetujui surat dan menerbitkan nomor urut otomatis.
-  * **Reject/Revisi:** Mengembalikan surat ke operator disertai dengan catatan perbaikan.
-* **Manajemen Periode:** Menambah, melihat, dan mengunduh data berdasarkan periode pencatatan (misal: Triwulan I 2026).
-
-### 🌐 Fitur Umum
-* **Autentikasi:** Login aman, Lupa Kata Sandi, dan Lupa Username.
-* **Pusat Bantuan (Help Center):** Halaman FAQ interaktif, Panduan Pengguna (Admin & Operator), Catatan Rilis (Updates), dan form Hubungi Kami.
-* **Kebijakan Privasi:** Halaman informasi transparansi keamanan data pengguna.
-
----
+- **Otentikasi Aman**: Login yang aman menggunakan enkripsi (Bcrypt) & JSON Web Token (JWT). Tersedia juga fitur pemulihan kata sandi (Forgot Password).
+- **Manajemen Hak Akses (Role-Based)**: 
+  - **Admin**: Memiliki hak akses penuh untuk mengelola pengguna, mengatur periode penomoran surat, dan mengakses dasbor utama.
+  - **Operator**: Dapat mengajukan penomoran surat dan melihat daftar surat yang relevan.
+- **Pengelolaan Surat**: Mencatat detail surat seperti nomor surat, perihal, tujuan/asal surat, beserta file lampiran (unggah dokumen Word/PDF).
+- **Pengaturan Periode**: Admin dapat membuat dan mengatur periode aktif penomoran surat.
+- **Dasbor Informatif**: Menampilkan ringkasan statistik dan agenda surat secara *real-time*.
+- **Pencarian & Filter**: Kemudahan untuk melacak dan mencari arsip surat lama berdasarkan berbagai kriteria.
 
 ## 🛠️ Teknologi yang Digunakan
 
-Proyek ini dibangun menggunakan ekosistem *Frontend* modern:
-* **Framework:** [React 18](https://reactjs.org/)
-* **Build Tool:** [Vite](https://vitejs.dev/)
-* **Bahasa Pemrograman:** [TypeScript](https://www.typescriptlang.org/)
-* **Routing:** [React Router DOM](https://reactrouter.com/)
-* **Styling:** Vanilla CSS (Pendekatan Modular)
-* **Iconography:** [FontAwesome](https://fontawesome.com/)
+Proyek ini dibangun menggunakan arsitektur monorepo sederhana yang memisahkan antara _frontend_ dan _backend_.
 
----
+### Frontend (`/sipenas`)
+- **React.js** (dengan Vite untuk build tool yang super cepat)
+- **TypeScript** (untuk penulisan kode yang lebih aman dan terstruktur)
+- **React Router** (untuk navigasi antar halaman)
+- **CSS murni / Framework CSS** (untuk desain antarmuka yang responsif)
 
-## 🚀 Cara Instalasi & Menjalankan Proyek
+### Backend (`/sipenas-api`)
+- **Node.js** & **Express.js** (sebagai framework server RESTful API)
+- **MySQL** (Sistem Manajemen Basis Data Relasional)
+- **Multer** (untuk menangani *upload* file dokumen)
+- **Nodemailer** (untuk pengiriman email pemulihan kata sandi)
 
-Pastikan Anda sudah menginstal [Node.js](https://nodejs.org/) di komputer Anda sebelum menjalankan perintah di bawah ini.
 
-1. **Clone repositori ini:**
-   git clone https://github.com/rapsz30/Sipenas---Sistem-Pengelolaan-Nomor-dan-Agenda-Surat.git
 
-2. **Masuk ke direktori proyek:**
-    cd sipenas
-    
-3. **Instal dependensi (packages):**
-    npm install
+## 📂 Struktur Repositori
 
-4. **Jalankan server development:**
-    npm run dev
+text
+├── sipenas/                # Root direktori aplikasi Frontend (React + Vite)
+│   ├── public/             # Aset statis publik
+│   ├── src/                # Kode sumber aplikasi frontend (komponen, halaman, layanan)
+│   └── package.json        # Dependensi dan script frontend
+│
+├── sipenas-api/            # Root direktori aplikasi Backend (Express API)
+│   ├── uploads/            # Direktori penyimpanan file lampiran surat (.docx, .pdf)
+│   ├── db_sipenas.sql      # File ekspor basis data MySQL
+│   ├── index.js            # Entry point server Express
+│   └── package.json        # Dependensi dan script backend
+│
+└── README.md               # Dokumentasi proyek
 
-5. **Buka di Browser:**
-    Aplikasi akan berjalan secara lokal. Buka browser Anda dan kunjungi tautan yang muncul di terminal (biasanya http://localhost:5173).
 
-📂 Struktur Direktori Utama
-Plaintext
-sipenas/
-├── public/                 # Aset publik statis
-├── src/
-│   ├── assets/             # Gambar, ikon, dll
-│   ├── components/         # Komponen UI Reusable (Navbar, Sidebar, Button, dll)
-│   ├── layouts/            # Layout pembungkus halaman (AuthLayout, dll)
-│   ├── pages/              # Komponen Halaman Utama
-│   │   ├── Admin/          # Halaman khusus Admin (Dashboard, Kelola Surat, Periode)
-│   │   ├── Operator/       # Halaman khusus Operator
-│   │   ├── Login/          # Halaman Autentikasi
-│   │   └── Help/           # Halaman Pusat Bantuan & FAQ
-│   ├── App.tsx             # Pengaturan Routing Aplikasi
-│   └── main.tsx            # Entry point React
-├── index.html              # Template HTML utama
-├── package.json            # Daftar dependensi & scripts
-└── vite.config.ts          # Konfigurasi Vite
+## ⚙️ Prasyarat (Prerequisites)
+
+Pastikan sistem Anda telah terpasang perangkat lunak berikut sebelum menjalankan proyek:
+
+* **Node.js** (versi 16.x atau lebih baru direkomendasikan)
+* **NPM** atau **Yarn** (biasanya sudah termasuk saat menginstal Node.js)
+* **MySQL** Server (contoh: XAMPP, Laragon, atau instalasi MySQL mandiri)
+
+
+
+## 💻 Instalasi dan Konfigurasi
+
+Ikuti langkah-langkah di bawah ini untuk menjalankan SIPENAS di lingkungan lokal Anda.
+
+### 1. Konfigurasi Basis Data (Database)
+
+1. Buka MySQL / phpMyAdmin Anda.
+2. Buat database baru dengan nama `db_sipenas` (atau nama lain sesuai preferensi Anda).
+3. Lakukan impor (import) struktur dan data awal dari file `sipenas-api/db_sipenas.sql` ke dalam database yang baru dibuat.
+
+### 2. Setup Backend (API)
+
+1. Buka terminal/command prompt dan masuk ke direktori backend:
+bash
+cd sipenas-api
+
+2. Instal semua dependensi backend:
+bash
+npm install
+
+3. Konfigurasi *Environment Variables*. Buka file `.env` di dalam folder `sipenas-api` (jika belum ada, buat file `.env`) dan sesuaikan dengan konfigurasi sistem Anda:
+env
+PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=db_sipenas
+JWT_SECRET=rahasia_token_anda_disini
+
+4. Jalankan server backend:
+bash
+npm start
+# atau jika menggunakan nodemon untuk mode pengembangan:
+npm run dev
+
+Server akan berjalan di `http://localhost:5000`.
+
+### 3. Setup Frontend (Client)
+
+1. Buka tab terminal baru dan masuk ke direktori frontend:
+bash
+cd sipenas
+
+2. Instal dependensi frontend:
+bash
+npm install
+
+3. *(Opsional)* Jika perlu, sesuaikan URL endpoint API di file konfigurasi frontend agar mengarah ke `http://localhost:5000`.
+4. Jalankan *development server* Vite:
+bash
+npm run dev
+
+5. Buka tautan yang muncul di terminal (biasanya `http://localhost:5173`) di browser web Anda.
+
+## 🔒 Akses Default
+
+Jika Anda baru saja mengimpor database, Anda bisa menggunakan akun berikut untuk login pertama kali (sesuaikan jika ada perbedaan di data SQL Anda):
+
+* **Role Admin**
+* Username: `Sekretariat`
+* Password: `admin123`
+
+
+* **Role Operator**
+* Username: `operator e-gob`
+* Password: `operator123`
