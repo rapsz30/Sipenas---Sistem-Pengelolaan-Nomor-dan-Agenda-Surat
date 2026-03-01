@@ -1,6 +1,6 @@
 # SIPENAS - Sistem Pengelolaan Nomor dan Agenda Surat
 
-![SIPENAS Banner](https://via.placeholder.com/1200x300.png?text=SIPENAS+-+Sistem+Pengelolaan+Nomor+dan+Agenda+Surat) **SIPENAS** adalah sebuah aplikasi berbasis web yang dirancang untuk memudahkan instansi atau organisasi dalam mengelola penomoran dan pengarsipan agenda surat secara digital. Dengan SIPENAS, proses pencatatan, pelacakan, dan penyimpanan surat (baik surat masuk maupun surat keluar) menjadi lebih terstruktur, transparan, dan efisien.
+!**SIPENAS** adalah sebuah aplikasi berbasis web yang dirancang untuk memudahkan instansi atau organisasi dalam mengelola penomoran dan pengarsipan agenda surat secara digital. Dengan SIPENAS, proses pencatatan, pelacakan, dan penyimpanan surat (baik surat masuk maupun surat keluar) menjadi lebih terstruktur, transparan, dan efisien.
 
 ## 🚀 Fitur Utama
 
